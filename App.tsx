@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import Entypo from "@expo/vector-icons/Entypo";
 import { appFonts } from "./src/utils/fonts";
 import OnBoarding from "./src/components/on-boarding/OnBoarding";
+import AppRoutes from "./src/routes";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -41,7 +42,8 @@ export default function App() {
 
   return (
     <View style={styles.container} onLayout={onLayoutRootView}>
-        <OnBoarding />
+      {/* <OnBoarding /> */}
+      <AppRoutes />
     </View>
   );
 }

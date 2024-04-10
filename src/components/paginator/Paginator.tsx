@@ -1,11 +1,18 @@
-import { StyleSheet, Text, View, Animated } from "react-native";
+import { StyleSheet, Text, View, Animated, Pressable } from "react-native";
 import React from "react";
 import { slides } from "../../utils/slides";
+import { useNavigation } from "@react-navigation/native";
 
 const Paginator: React.FC<{
   currIndex: number;
   onNextSlide: () => void;
 }> = ({ currIndex, onNextSlide }) => {
+  const navigation = useNavigation();
+
+  function switchOnBoardingHandler() {
+    navigation.navigate("login");
+  }
+
   return (
     <View style={styles.paginator}>
       <View
@@ -28,7 +35,11 @@ const Paginator: React.FC<{
           );
         })}
       </View>
-      <Text style={{fontFamily: 'dmsans semibold', fontSize: 16,}}>Pular</Text>
+      <Pressable onPress={switchOnBoardingHandler}>
+        <Text style={{ fontFamily: "dmsans semibold", fontSize: 16 }}>
+          Pular
+        </Text>
+      </Pressable>
     </View>
   );
 };

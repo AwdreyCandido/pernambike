@@ -11,8 +11,8 @@ import Slide from "./Slide";
 import { useRef, useState } from "react";
 import Paginator from "../paginator/Paginator";
 
-const OnBoarding = () => {
-  const slidesRef = useRef(null);
+const OnBoarding = ({ navigation }) => {
+  const slidesRef = useRef<FlatList>(null);
   const [currIndex, setCurrIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
 
@@ -22,9 +22,10 @@ const OnBoarding = () => {
 
   function scrollTo() {
     if (currIndex < slides.length - 1) {
-      slidesRef.current.scrollToIndex({ index: currIndex + 1 });
+      slidesRef.current?.scrollToIndex({ index: currIndex + 1 });
     } else {
       // Navigate to Login Screen
+      navigation.navigate("login");
     }
   }
 
