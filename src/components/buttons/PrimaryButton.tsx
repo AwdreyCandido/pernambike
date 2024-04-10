@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import React from "react";
+import { colors } from "../../utils/custom-styles";
 
 const PrimaryButton: React.FC<{ title: string; onPress: () => void }> = ({
   title,
@@ -22,7 +23,7 @@ export default PrimaryButton;
 const styles = StyleSheet.create({
   button: {
     width: "100%",
-    backgroundColor: "#5464FF",
+    backgroundColor: colors.primary[1],
     padding: 12,
     borderRadius: 50,
     justifyContent: "center",

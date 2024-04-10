@@ -9,6 +9,7 @@ import {
 import React from "react";
 import PrimaryButton from "../buttons/PrimaryButton";
 import { slides } from "../../utils/slides";
+import { colors, texts } from "../../utils/custom-styles";
 
 const Slide: React.FC<{
   item: any;
@@ -22,7 +23,9 @@ const Slide: React.FC<{
       <View style={[item.id === "2" ? styles.blobReverse : styles.blob]}></View>
 
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>{item.title}</Text>
+        <Text style={[texts.dmTitle.bold, { textAlign: "center" }]}>
+          {item.title}
+        </Text>
       </View>
       <View style={styles.imageContainer}>
         <Image
@@ -80,11 +83,6 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
 
-  title: {
-    fontSize: 42,
-    fontFamily: "dmsans bold",
-    textAlign: "center",
-  },
   description: {
     fontSize: 24,
     fontFamily: "dmsans regular",
@@ -97,7 +95,7 @@ const styles = StyleSheet.create({
     width: 300,
     borderTopRightRadius: 200,
     borderTopLeftRadius: 200,
-    backgroundColor: "#EEF0FF",
+    backgroundColor: colors.primary[5],
     position: "absolute",
     bottom: 0,
   },
@@ -106,7 +104,7 @@ const styles = StyleSheet.create({
     width: 300,
     borderBottomRightRadius: 200,
     borderBottomLeftRadius: 200,
-    backgroundColor: "#EEF0FF",
+    backgroundColor: colors.primary[5],
     position: "absolute",
     top: 0,
   },
