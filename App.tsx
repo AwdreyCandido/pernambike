@@ -1,11 +1,12 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
 import { useCallback, useEffect, useState } from "react";
 import Entypo from "@expo/vector-icons/Entypo";
 import { appFonts } from "./src/utils/fonts";
+import OnBoarding from "./src/components/on-boarding/OnBoarding";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -40,10 +41,7 @@ export default function App() {
 
   return (
     <View style={styles.container} onLayout={onLayoutRootView}>
-      <Text style={{ fontFamily: "sora regular", fontSize: 20 }}>
-        Pernambike
-      </Text>
-      <StatusBar style="auto" />
+        <OnBoarding />
     </View>
   );
 }
@@ -51,8 +49,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
     justifyContent: "center",
   },
 });
