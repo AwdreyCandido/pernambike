@@ -1,11 +1,13 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { Alert, StyleSheet, Text, View } from "react-native";
+import React, { useContext } from "react";
 import { colors } from "../../utils/custom-styles";
 import PrimaryButton from "../buttons/PrimaryButton";
 import Input from "../inputs/Input";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { SignUpFormSchema, signUpFormSchema } from "../../utils/form-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { registerUser } from "../../services/auth";
+import { AuthContext } from "../../store/AuthContext";
 
 const RegisterForm = () => {
   const methods = useForm<SignUpFormSchema>({
@@ -13,8 +15,17 @@ const RegisterForm = () => {
     mode: "onBlur",
   });
 
-  const onSubmit: SubmitHandler<SignUpFormSchema> = (data) => {
-    console.log(JSON.stringify(data));
+  const { authenticate } = useContext(AuthContext);
+
+  const onSubmit: SubmitHandler<SignUpFormSchema> = async (userData) => {
+    try {
+      const response = await registerUser(userData);
+      const token = response.data.idToken;
+      // ADD TOKEN TO STORE
+      authenticate(token);
+    } catch (error) {
+      Alert.alert("Erro no Cadastro", "Por favor, tente novamente mais tarde.");
+    }
   };
 
   return (

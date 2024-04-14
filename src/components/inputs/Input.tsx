@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     justifyContent: "center",
     overflow: "hidden",
-    fontSize: 20,
+    fontSize: 18,
     paddingHorizontal: 20,
   },
   label: {

@@ -1,12 +1,14 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import { colors, texts } from "../../utils/custom-styles";
-import React from "react";
+import React, { useContext } from "react";
 import OutlineButton from "../buttons/OulineButton";
 import PrimaryButton from "../buttons/PrimaryButton";
 import Input from "../inputs/Input";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { LoginFormSchema, loginFormSchema } from "../../utils/form-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { loginUser } from "../../services/auth";
+import { AuthContext } from "../../store/AuthContext";
 
 const LoginForm = ({ toRegisterScreen }) => {
   const methods = useForm<LoginFormSchema>({
@@ -14,8 +16,18 @@ const LoginForm = ({ toRegisterScreen }) => {
     mode: "onBlur",
   });
 
-  const onSubmit: SubmitHandler<LoginFormSchema> = (data) => {
-    console.log(JSON.stringify(data));
+  const { authenticate } = useContext(AuthContext);
+
+  const onSubmit: SubmitHandler<LoginFormSchema> = async (userData) => {
+    console.log(JSON.stringify(userData));
+    try {
+      const response = await loginUser(userData);
+      const token = response.data.idToken;
+      // ADD TOKEN TO STORE
+      authenticate(token);
+    } catch (error) {
+      Alert.alert("Erro no Login", "Por favor, cheque suas credenciais.");
+    }
   };
 
   return (
@@ -64,18 +76,6 @@ const LoginForm = ({ toRegisterScreen }) => {
             );
           }}
         />
-        {/* <Input
-          label="E-mail"
-          inputConfig={{ placeholder: "Ex: email@email.com" }}
-        /> */}
-        {/* <Input
-          label="Senha"
-          inputConfig={{
-            placeholder: "••••••",
-            cursorColor: colors.primary[1],
-          }}
-          type="password"
-        /> */}
       </View>
       <View style={{ gap: 10 }}>
         <PrimaryButton

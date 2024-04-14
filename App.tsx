@@ -8,6 +8,7 @@ import Entypo from "@expo/vector-icons/Entypo";
 import { appFonts } from "./src/utils/fonts";
 import OnBoarding from "./src/components/on-boarding/OnBoarding";
 import AppRoutes from "./src/routes";
+import AuthContextProvider from "./src/store/AuthContext";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -43,7 +44,9 @@ export default function App() {
   return (
     <View style={styles.container} onLayout={onLayoutRootView}>
       {/* <OnBoarding /> */}
-      <AppRoutes />
+      <AuthContextProvider>
+        <AppRoutes />
+      </AuthContextProvider>
     </View>
   );
 }
@@ -52,6 +55,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    backgroundColor: 'white'
+    backgroundColor: "white",
   },
 });

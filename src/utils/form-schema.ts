@@ -1,7 +1,7 @@
 import z from "zod";
 
 const PHONE_REGEX = /(?:(^\+\d{2})?)(?:([1-9]{2})|([0-9]{3})?)(\d{4,5})(\d{4})/;
-const NAME_REGEX = /^[A-Za-z]+$/i;
+const NAME_REGEX = /\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú]{2,19}\b/gi;
 
 export const signUpFormSchema = z.object({
   name: z
@@ -23,7 +23,7 @@ export const signUpFormSchema = z.object({
     .string({ required_error: "Senha é obrigatório" })
     .trim()
     .min(6, "Sua senha deve ter no mínimo 6 caracteres"),
-  confirmPassword: z.string(),
+  confirmPassword: z.string({ required_error: "Confirme sua senha" }),
 });
 
 export const loginFormSchema = z.object({
