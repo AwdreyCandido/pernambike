@@ -1,10 +1,9 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import PrimaryButton from "../../components/buttons/PrimaryButton";
-import OutlineButton from "../../components/buttons/OulineButton";
-import Input from "../../components/inputs/Input";
 import { colors, texts } from "../../utils/custom-styles";
+import LoginForm from "../../components/forms/LoginForm";
+import { ScrollView } from "react-native-gesture-handler";
 
 const LoginScreen = ({ navigation }) => {
   function goToRegisterScreenHandler() {
@@ -14,39 +13,18 @@ const LoginScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <SafeAreaView style={{ flex: 1 }}>
-        <View style={{ paddingHorizontal: 20 }}>
-          <View style={styles.imageContainer}>
-            <Image
-              style={styles.image}
-              source={require("./../../../assets/imgs/logo-name-1.png")}
-            />
+        <ScrollView>
+          <View style={{ paddingHorizontal: 20, paddingBottom: 50  }}>
+            <View style={styles.imageContainer}>
+              <Image
+                style={styles.image}
+                source={require("./../../../assets/imgs/logo-name-1.png")}
+              />
+            </View>
+            <Text style={[texts.soraTitle.bold, styles.title]}>Login</Text>
+            <LoginForm toRegisterScreen={goToRegisterScreenHandler} />
           </View>
-          <Text style={[texts.soraTitle.bold, styles.title]}>Login</Text>
-          <View style={{ gap: 10, marginBottom: 100 }}>
-            <Input
-              label="E-mail"
-              inputConfig={{ placeholder: "Ex: email@email.com" }}
-            />
-            <Input
-              label="Senha"
-              inputConfig={{
-                placeholder: "••••••",
-                cursorColor: colors.primary[1],
-              }}
-              type="password"
-            />
-          </View>
-          <View style={{ gap: 10 }}>
-            <PrimaryButton title="Entrar" onPress={() => {}} />
-            <Text style={[texts.dmText.medium, { textAlign: "center" }]}>
-              ou
-            </Text>
-            <OutlineButton
-              title="Fazer Cadastro"
-              onPress={goToRegisterScreenHandler}
-            />
-          </View>
-        </View>
+        </ScrollView>
       </SafeAreaView>
     </View>
   );
@@ -70,5 +48,4 @@ const styles = StyleSheet.create({
   image: {
     transform: [{ scale: 0.7 }, { translateY: -30 }],
   },
-  loginForm: {},
 });

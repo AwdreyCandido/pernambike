@@ -8,6 +8,7 @@ import { colors, texts } from "../../utils/custom-styles";
 import { ScrollView } from "react-native-gesture-handler";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Feather from "@expo/vector-icons/Feather";
+import RegisterForm from "../../components/forms/RegisterForm";
 
 const RegisterScreen = ({ navigation }) => {
   function goBackToLogin() {
@@ -28,45 +29,7 @@ const RegisterScreen = ({ navigation }) => {
             <Text style={[texts.soraTitle.bold, styles.title]}>
               Cadastre-se
             </Text>
-            <View style={{ gap: 10, marginBottom: 100 }}>
-              <Input
-                label="Nome"
-                inputConfig={{ placeholder: "Seu nome completo" }}
-              />
-              <Input
-                label="E-mail"
-                inputConfig={{
-                  placeholder: "Ex: email@email.com",
-                  keyboardType: "email-address",
-                }}
-              />
-              <Input
-                label="Telefone"
-                inputConfig={{
-                  placeholder: "Ex: (88) 99999-9999",
-                  keyboardType: "phone-pad",
-                }}
-              />
-              <Input
-                label="Senha"
-                inputConfig={{
-                  placeholder: "••••••",
-                  cursorColor: colors.primary[1],
-                }}
-                type="password"
-              />
-              <Input
-                label="Confirme sua senha"
-                inputConfig={{
-                  placeholder: "••••••",
-                  cursorColor: colors.primary[1],
-                }}
-                type="password"
-              />
-            </View>
-            <View style={{ gap: 10 }}>
-              <PrimaryButton title="Confirmar" onPress={() => {}} />
-            </View>
+            <RegisterForm/>
             <Pressable
               onPress={goBackToLogin}
               style={({ pressed }) => pressed && { opacity: 0.75 }}

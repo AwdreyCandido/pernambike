@@ -16,7 +16,7 @@ export const colors = {
   },
   success: "#5FD53B",
   alert: "#FFE048",
-  error: "#FF2E00",
+  error: { 1: "#FF2E00", 2: "#ffc0b3" },
   text: "#3D3D3D",
   lightgray: "#EFF3F7",
 };
