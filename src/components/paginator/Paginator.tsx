@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     position: "absolute",
     zIndex: 2,
+    top: 35
   },
   dot: {
     width: 18,

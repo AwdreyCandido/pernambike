@@ -19,7 +19,7 @@ const Slide: React.FC<{
   const { width, height } = useWindowDimensions();
 
   return (
-    <View style={[styles.container, { width, height }]}>
+    <View style={[styles.container, { width }]}>
       <View style={[item.id === "2" ? styles.blobReverse : styles.blob]}></View>
 
       <View style={styles.titleContainer}>
@@ -51,7 +51,7 @@ export default Slide;
 const styles = StyleSheet.create({
   titleContainer: {
     width: "100%",
-    flex: 0.4,
+    flex: 0.5,
     justifyContent: "flex-end",
   },
   imageContainer: {
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logo: {
-    flex: 0.7,
+    flex: 0.65,
     alignSelf: "center",
     zIndex: 1,
   },
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     width: 300,
     borderBottomRightRadius: 200,
     borderBottomLeftRadius: 200,
-    backgroundColor: colors.primary[5],
+    backgroundColor: "#EEF0FF",
     position: "absolute",
     top: 0,
   },

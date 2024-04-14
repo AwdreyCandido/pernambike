@@ -5,6 +5,7 @@ import {
   FlatList,
   Animated,
   useWindowDimensions,
+  SafeAreaView,
 } from "react-native";
 import { slides } from "../../utils/slides";
 import Slide from "./Slide";
@@ -30,30 +31,30 @@ const OnBoarding = ({ navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
-      <Paginator currIndex={currIndex} onNextSlide={scrollTo} />
-      <View>
-        <FlatList
-          data={slides}
-          renderItem={({ item }) => (
-            <Slide item={item} currIndex={currIndex} onNextSlide={scrollTo} />
-          )}
-          keyExtractor={(item) => item.id}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          pagingEnabled
-          scrollEventThrottle={52}
-          bounces={false}
-          onViewableItemsChanged={viewableItemsChanged}
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-            { useNativeDriver: false }
-          )}
-          viewabilityConfig={{ itemVisiblePercentThreshold: 50 }}
-          ref={slidesRef}
-        />
+      <View style={styles.container}>
+        <Paginator currIndex={currIndex} onNextSlide={scrollTo} />
+        <View style={{flex: 1}}>
+          <FlatList
+            data={slides}
+            renderItem={({ item }) => (
+              <Slide item={item} currIndex={currIndex} onNextSlide={scrollTo} />
+            )}
+            keyExtractor={(item) => item.id}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            pagingEnabled
+            scrollEventThrottle={52}
+            bounces={false}
+            onViewableItemsChanged={viewableItemsChanged}
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+              { useNativeDriver: false }
+            )}
+            viewabilityConfig={{ itemVisiblePercentThreshold: 50 }}
+            ref={slidesRef}
+          />
+        </View>
       </View>
-    </View>
   );
 };
 
@@ -62,7 +63,8 @@ export default OnBoarding;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    bottom: 0,
-    position: "absolute",
+    // bottom: 0,
+    // position: "absolute",
+    backgroundColor: "white",
   },
 });
