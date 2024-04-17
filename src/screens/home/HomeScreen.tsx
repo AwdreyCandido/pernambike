@@ -1,13 +1,18 @@
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Alert, Button, StyleSheet, Text, View } from "react-native";
 import React, { useContext } from "react";
 import { AuthContext } from "../../store/AuthContext";
 import { useNavigation } from "@react-navigation/native";
+import { supabase } from "../../lib/supabase";
 
 const HomeScreen = () => {
   const { logout } = useContext(AuthContext);
   const navigation = useNavigation();
 
-  function logoutHandler() {
+  async function logoutHandler() {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      return Alert.alert("Erro ao fazer logout, Tente novamente mais tarde.");
+    }
     logout();
   }
 

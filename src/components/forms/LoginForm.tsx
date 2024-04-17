@@ -19,15 +19,15 @@ const LoginForm = ({ toRegisterScreen }) => {
   const { authenticate } = useContext(AuthContext);
 
   const onSubmit: SubmitHandler<LoginFormSchema> = async (userData) => {
-    console.log(JSON.stringify(userData));
-    try {
-      const response = await loginUser(userData);
-      const token = response.data.idToken;
-      // ADD TOKEN TO STORE
-      authenticate(token);
-    } catch (error) {
-      Alert.alert("Erro no Login", "Por favor, cheque suas credenciais.");
+    const { session, error } = await loginUser(userData);
+
+    if (!session || error) {
+      return Alert.alert(
+        "Erro no Login",
+        "Por favor, cheque suas credenciais."
+      );
     }
+    authenticate(session.access_token);
   };
 
   return (

@@ -1,35 +1,50 @@
 import axios from "axios";
+import { supabase } from "../lib/supabase";
 
 import { loginEndpoint, signUpEndpoint } from "./api-constants";
 
 type RegisterUser = {
   name: string;
   email: string;
-  phone?: string;
-  password?: string;
-  confirmPassword?: string;
+  phone: string;
+  password: string;
+  confirmPassword: string;
 };
 
 type LoginUser = { email: string; password: string };
 
 export async function registerUser(user: RegisterUser) {
-  const response = await axios.post(signUpEndpoint, {
-    ...user,
-    returnSecureToken: true,
+  const {
+    data: { session },
+    error,
+  } = await supabase.auth.signUp({
+    email: user.email,
+    password: user.password,
+    options: {
+      data: {
+        name: user.name,
+        phone: user.phone,
+      },
+    },
   });
+
   return {
-    data: response.data,
-    status: response.status,
+    session,
+    error,
   };
 }
 
 export async function loginUser(user: LoginUser) {
-  const response = await axios.post(loginEndpoint, {
-    ...user,
-    returnSecureToken: true,
+  const {
+    data: { session },
+    error,
+  } = await supabase.auth.signInWithPassword({
+    email: user.email,
+    password: user.password,
   });
+
   return {
-    data: response.data,
-    status: response.status,
+    session,
+    error,
   };
 }
