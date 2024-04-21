@@ -18,14 +18,16 @@ const RegisterForm = () => {
   const { authenticate } = useContext(AuthContext);
 
   const onSubmit: SubmitHandler<SignUpFormSchema> = async (userData) => {
-    try {
-      const response = await registerUser(userData);
-      const token = response.data.idToken;
-      // ADD TOKEN TO STORE
-      authenticate(token);
-    } catch (error) {
-      Alert.alert("Erro no Cadastro", "Por favor, tente novamente mais tarde.");
+    const { error, session } = await registerUser(userData);
+
+    if (!session || error) {
+      return Alert.alert(
+        "Erro no Cadastro",
+        "Por favor, tente novamente mais tarde."
+      );
     }
+
+    authenticate(session.access_token);
   };
 
   return (

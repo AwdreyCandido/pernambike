@@ -11,9 +11,9 @@ import { colors, texts } from "../../utils/custom-styles";
 import { Feather } from "@expo/vector-icons";
 
 const Input: React.FC<{
-  label: string;
+  label?: string;
   type?: string;
-  errorMessage: string | undefined;
+  errorMessage?: string | undefined;
   inputConfig: TextInputProps;
 }> = ({ label, inputConfig, type, errorMessage }) => {
   return (
@@ -26,8 +26,8 @@ const Input: React.FC<{
       <TextInput
         style={[
           texts.soraText.regular,
-          styles.input,
           errorMessage ? styles.errorInput : {},
+          styles.input
         ]}
         {...inputConfig}
         secureTextEntry={type === "password"}
@@ -51,10 +51,10 @@ const styles = StyleSheet.create({
   input: {
     width: "100%",
     borderWidth: 1.5,
-    borderColor: colors.text,
+    borderColor: colors.dark[4],
     backgroundColor: "white",
     padding: 10,
-    borderRadius: 50,
+    borderRadius: 20,
     justifyContent: "center",
     overflow: "hidden",
     fontSize: 18,
