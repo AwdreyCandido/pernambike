@@ -13,6 +13,7 @@ export const colors = {
     "3": "#6E7077",
     "4": "#98999E",
     "5": "#C1C2C5",
+    "6": "#e0e1e2",
   },
   success: "#5FD53B",
   alert: "#FFE048",

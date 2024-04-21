@@ -15,7 +15,7 @@ export const AuthContext = createContext<IAuthContext>({
 });
 
 const AuthContextProvider = ({ children }) => {
-  const [token, setToken] = useState<string | null>("");
+  const [token, setToken] = useState<string | null>("a");
 
   function authenticate(token: string) {
     setToken(token);
