@@ -1,6 +1,6 @@
 import { Alert, StyleSheet, Text, View } from "react-native";
 import { colors, texts } from "../../utils/custom-styles";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import OutlineButton from "../buttons/OulineButton";
 import PrimaryButton from "../buttons/PrimaryButton";
 import Input from "../inputs/Input";
@@ -9,8 +9,10 @@ import { LoginFormSchema, loginFormSchema } from "../../utils/form-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginUser } from "../../services/auth";
 import { AuthContext } from "../../store/AuthContext";
+import Loading from "../layout/Loading";
 
 const LoginForm = ({ toRegisterScreen }) => {
+  const [isLoading, setLoading] = useState(false);
   const methods = useForm<LoginFormSchema>({
     resolver: zodResolver(loginFormSchema),
     mode: "onBlur",
@@ -19,9 +21,11 @@ const LoginForm = ({ toRegisterScreen }) => {
   const { authenticate } = useContext(AuthContext);
 
   const onSubmit: SubmitHandler<LoginFormSchema> = async (userData) => {
+    setLoading(!isLoading);
     const { session, error } = await loginUser(userData);
 
     if (!session || error) {
+      setLoading(!isLoading);
       return Alert.alert(
         "Erro no Login",
         "Por favor, cheque suas credenciais."
@@ -29,10 +33,12 @@ const LoginForm = ({ toRegisterScreen }) => {
     }
 
     authenticate(session.access_token, session.user.id);
+    setLoading(!isLoading);
   };
 
   return (
     <View>
+      {isLoading && <Loading />}
       <View style={{ gap: 10, marginBottom: 100 }}>
         <Controller
           control={methods.control}
@@ -48,7 +54,7 @@ const LoginForm = ({ toRegisterScreen }) => {
                 inputConfig={{
                   placeholder: "Ex: email@email.com",
                   onBlur: onBlur,
-                  value: value ,
+                  value: value,
                   onChangeText: onChange,
                 }}
               />
