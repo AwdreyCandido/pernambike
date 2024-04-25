@@ -7,41 +7,54 @@ import {
   View,
 } from "react-native";
 
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../store/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { supabase } from "../../lib/supabase";
 import BikeView from "../../components/bike-view/BikeView";
 import { FlatList } from "react-native-gesture-handler";
-import { bikes } from "../../data/bikes";
+// import { bikes } from "../../data/bikes";
 import { colors, texts } from "../../utils/custom-styles";
 import Input from "../../components/inputs/Input";
 import { Ionicons } from "@expo/vector-icons";
+import { getAllBikes } from "../../services/bikes";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const { logout } = useContext(AuthContext);
-  const navigation = useNavigation();
+  const [bikes, setBikes] = useState();
 
-  async function logoutHandler() {
-    const { error } = await supabase.auth.signOut();
+  useEffect(() => {
+    getAllBikesHandler();
+  }, []);
+
+  async function getAllBikesHandler() {
+    const { data, error } = await getAllBikes();
+
     if (error) {
-      return Alert.alert("Erro ao fazer logout, Tente novamente mais tarde.");
+      return Alert.alert(
+        "Erro ao buscar bikes",
+        "Por favor, verifique sua conexão com a internet."
+      );
     }
-    logout();
+
+    setBikes(data);
+  }
+
+  function bikeDetailsHandler(id: any) {
+    navigation.navigate("bike-details", { bikeId: id });
   }
 
   return (
-    <View style={{ backgroundColor: "white" }}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       <FlatList
         ListHeaderComponent={() => {
           return (
             <View>
-              <View style={{marginBottom: 10}}>
+              <View style={{ marginBottom: 10 }}>
                 <Input
                   inputConfig={{
                     placeholder: "Pesquise por modelo, localização...",
                   }}
-      
                 />
               </View>
               <Text style={[texts.dmTitle2.bold, { marginTop: 20 }]}>
@@ -65,9 +78,10 @@ const HomeScreen = () => {
             <BikeView
               title={item.title}
               price={item.price}
-              ratingsQtd={item.ratingsQtd}
+              ratingsQtd={item.reviewsQuantity}
               ratingsAvg={item.ratingsAvg}
-              imageUrl={item.imageUrl}
+              imageUrl={item.photoUrl}
+              onPress={bikeDetailsHandler.bind(this, item.id)}
             />
           );
         }}

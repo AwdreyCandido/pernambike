@@ -14,19 +14,19 @@ const Tab = createBottomTabNavigator();
 
 function TabRoutes() {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <Tab.Navigator
         screenOptions={{
           tabBarActiveTintColor: colors.primary[1],
           tabBarInactiveTintColor: colors.primary[4],
           tabBarStyle: {
-            position: 'absolute',
+            position: "absolute",
             height: 65,
             borderTopLeftRadius: 40,
             borderTopRightRadius: 40,
             borderWidth: 1,
             borderColor: colors.primary[4],
-            marginTop: 50
+            marginTop: 50,
           },
           tabBarShowLabel: false,
           header: ({}) => <CustomHeader />,

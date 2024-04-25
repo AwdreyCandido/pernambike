@@ -54,8 +54,11 @@ const AuthContextProvider = ({ children }) => {
 
   function logout() {
     setToken(null);
+    AsyncStorage.removeItem("token");
+    AsyncStorage.removeItem("userId");
   }
 
+  
   const value = {
     token,
     isAuthenticated: !!token,

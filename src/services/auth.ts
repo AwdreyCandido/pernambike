@@ -1,7 +1,5 @@
-import axios from "axios";
 import { supabase } from "../lib/supabase";
-
-import { loginEndpoint, signUpEndpoint } from "./api-constants";
+import { Alert } from "react-native";
 
 type RegisterUser = {
   name: string;
@@ -52,6 +50,8 @@ export async function loginUser(user: LoginUser) {
 export async function logoutUser() {
   const { error } = await supabase.auth.signOut();
   if (error) {
-    return error;
+    if (error) {
+      return Alert.alert("Erro ao fazer logout, Tente novamente mais tarde.");
+    }
   }
 }

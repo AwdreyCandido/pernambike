@@ -2,10 +2,11 @@ import { StyleSheet, Text, View, Pressable } from "react-native";
 import React from "react";
 import { colors } from "../../utils/custom-styles";
 
-const OutlineButton: React.FC<{ title: string; onPress: () => void }> = ({
-  title,
-  onPress,
-}) => {
+const OutlineButton: React.FC<{
+  title: string;
+  icon?: JSX.Element;
+  onPress: () => void;
+}> = ({ title, onPress, icon }) => {
   return (
     <Pressable
       style={({ pressed }) => pressed && { opacity: 0.65 }}
@@ -13,6 +14,7 @@ const OutlineButton: React.FC<{ title: string; onPress: () => void }> = ({
     >
       <View style={styles.button}>
         <Text style={styles.title}>{title}</Text>
+        {icon && icon}
       </View>
     </Pressable>
   );
@@ -26,6 +28,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.primary[1],
     backgroundColor: "white",
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
     padding: 10,
     borderRadius: 50,
     justifyContent: "center",
