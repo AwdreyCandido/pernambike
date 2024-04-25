@@ -27,7 +27,7 @@ const RegisterForm = () => {
       );
     }
 
-    authenticate(session.access_token);
+    authenticate(session.access_token, session.user.id);
   };
 
   return (

@@ -27,7 +27,8 @@ const LoginForm = ({ toRegisterScreen }) => {
         "Por favor, cheque suas credenciais."
       );
     }
-    authenticate(session.access_token);
+
+    authenticate(session.access_token, session.user.id);
   };
 
   return (
@@ -47,7 +48,7 @@ const LoginForm = ({ toRegisterScreen }) => {
                 inputConfig={{
                   placeholder: "Ex: email@email.com",
                   onBlur: onBlur,
-                  value: value,
+                  value: value ,
                   onChangeText: onChange,
                 }}
               />

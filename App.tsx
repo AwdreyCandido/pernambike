@@ -45,6 +45,7 @@ export default function App() {
     <View style={styles.container} onLayout={onLayoutRootView}>
       {/* <OnBoarding /> */}
       <AuthContextProvider>
+        <StatusBar style="dark" backgroundColor="white"/>
         <AppRoutes />
       </AuthContextProvider>
     </View>

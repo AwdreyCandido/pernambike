@@ -48,3 +48,10 @@ export async function loginUser(user: LoginUser) {
     error,
   };
 }
+
+export async function logoutUser() {
+  const { error } = await supabase.auth.signOut();
+  if (error) {
+    return error;
+  }
+}
