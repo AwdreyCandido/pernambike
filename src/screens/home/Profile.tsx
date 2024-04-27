@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, Alert } from "react-native";
 import React, { useContext } from "react";
 import { colors, texts } from "../../utils/custom-styles";
 import { FlatList } from "react-native-gesture-handler";
@@ -15,8 +15,10 @@ const Profile = () => {
   async function logoutHandler() {
     const error = await logoutUser();
     if (!error) {
-      logout();
+      return logout();
     }
+
+    return Alert.alert("Erro ao fazer logout, Tente novamente mais tarde.");
   }
 
   return (
@@ -55,7 +57,8 @@ const Profile = () => {
           <View style={{ flex: 1 }}>
             <Text style={[texts.soraText.bold]}>Entrou em</Text>
             <Text>
-              {user?.createdAt && new Date(user?.createdAt).toLocaleDateString()}
+              {user?.createdAt &&
+                new Date(user?.createdAt).toLocaleDateString()}
             </Text>
           </View>
         </View>
@@ -105,7 +108,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     flex: 1,
     paddingHorizontal: 20,
-    paddingTop: 20
+    paddingTop: 20,
   },
   card: {
     flexDirection: "row",

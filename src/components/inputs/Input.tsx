@@ -26,8 +26,8 @@ const Input: React.FC<{
       <TextInput
         style={[
           texts.soraText.regular,
+          styles.input,
           errorMessage ? styles.errorInput : {},
-          styles.input
         ]}
         {...inputConfig}
         secureTextEntry={type === "password"}

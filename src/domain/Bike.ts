@@ -1,3 +1,5 @@
+import { IUser } from "./User";
+
 export interface IBike {
   id: number;
   createdAt: Date;
@@ -13,4 +15,5 @@ export interface IBike {
   title: string;
   reviewsQuantity: number;
   ratingsAvg: number;
+  users: IUser;
 }

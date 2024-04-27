@@ -1,13 +1,31 @@
-import { StyleSheet, Text, View, Image } from "react-native";
-import React from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableWithoutFeedback,
+} from "react-native";
+import React, { useContext } from "react";
 import { colors, texts } from "../../utils/custom-styles";
 import { Ionicons } from "@expo/vector-icons";
+import { AuthContext } from "../../store/AuthContext";
+import { useNavigation } from "@react-navigation/native";
 
 const CustomHeader = () => {
+  const { user } = useContext(AuthContext);
+
+  const navigation = useNavigation();
+  function goToProfilePage() {
+    navigation.navigate("profile");
+  }
+
   return (
     <View style={styles.container}>
       <Image source={require("./../../../assets/imgs/sub-title-logo-2.png")} />
-      <Ionicons name="person-circle-outline" size={45} color={colors.dark[5]} />
+      <TouchableWithoutFeedback onPress={goToProfilePage}>
+        <Image source={{ uri: user?.photoUrl }} style={styles.image} />
+      </TouchableWithoutFeedback>
+      {/* <Ionicons name="person-circle-outline" size={45} color={colors.dark[5]} /> */}
     </View>
   );
 };
@@ -26,5 +44,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.2,
     borderBottomColor: colors.dark[5],
   },
-  image: {},
+  image: {
+    width: 45,
+    height: 45,
+    // backgroundColor: "green",
+    borderWidth: 1.5,
+    borderColor: colors.primary[3],
+    borderRadius: 100,
+  },
 });

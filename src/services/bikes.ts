@@ -9,7 +9,11 @@ export async function getAllBikes() {
   };
 }
 export async function getBike(id: string) {
-  const { data, error } = await supabase.from("bikes").select("*").eq("id", id);
+  const { data, error } = await supabase
+    .from("bikes")
+    .select(`*, users(*)`)
+    .eq("id", id);
+
   const [bike]: any = data;
 
   return {

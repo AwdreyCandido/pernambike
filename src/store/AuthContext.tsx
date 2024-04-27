@@ -20,7 +20,7 @@ export const AuthContext = createContext<IAuthContext>({
 });
 
 const AuthContextProvider = ({ children }) => {
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>("");
   const [user, setUser] = useState(null);
 
   useEffect(() => {

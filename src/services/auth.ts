@@ -49,9 +49,6 @@ export async function loginUser(user: LoginUser) {
 
 export async function logoutUser() {
   const { error } = await supabase.auth.signOut();
-  if (error) {
-    if (error) {
-      return Alert.alert("Erro ao fazer logout, Tente novamente mais tarde.");
-    }
-  }
+
+  return error;
 }

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
 import { colors, texts } from "../../utils/custom-styles";
 
@@ -6,11 +6,12 @@ const BikeOwner: React.FC<{
   price: number;
   reviewsQuantity: number;
   name: string;
-}> = ({ price, reviewsQuantity, name }) => {
+  photoUrl: string;
+}> = ({ price, reviewsQuantity, name, photoUrl }) => {
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
-        <View style={styles.image}></View>
+        <Image source={{ uri: photoUrl }} style={styles.image} />
         <View>
           <Text style={[texts.dmText.medium]}>{name}</Text>
           <Text style={styles.subtext}>{reviewsQuantity} avaliações</Text>

@@ -28,7 +28,8 @@ const BikeDetails = ({ navigation, route }: any) => {
   async function getAllBikesHandler(id: string) {
     const { data, error } = await getBike(id);
 
-    if (error) {
+    if (error || !data) {
+      goBackHandler();
       return Alert.alert(
         "Erro ao buscar detalhes da bike",
         "Por favor, verifique sua conexão com a internet."
@@ -76,10 +77,11 @@ const BikeDetails = ({ navigation, route }: any) => {
                 <Text style={[texts.dmTitle2.medium]}>{bike?.ratingsAvg}</Text>
               </View>
             </View>
-            <Text style={styles.subtext}>Maria Farinha, PE</Text>
+            <Text style={styles.subtext}>{bike?.users.location}</Text>
           </View>
           <BikeOwner
-            name="Lucas Gabriel"
+            name={bike?.users.name}
+            photoUrl={bike?.users.photoUrl}
             price={bike?.price}
             reviewsQuantity={bike?.reviewsQuantity}
           />
@@ -142,8 +144,8 @@ const styles = StyleSheet.create({
     height: "72%",
     width: "100%",
     overflow: "hidden",
-    borderTopRightRadius: 50,
-    borderTopLeftRadius: 50,
+    borderTopRightRadius: 40,
+    borderTopLeftRadius: 40,
     bottom: 0,
     position: "absolute",
     borderWidth: 2,
