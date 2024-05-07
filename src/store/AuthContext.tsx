@@ -9,6 +9,8 @@ interface IAuthContext {
   authenticate: (token: string, id: string) => void;
   logout: () => void;
   user: any;
+  isLoading: boolean;
+  authLoading: () => void;
 }
 
 export const AuthContext = createContext<IAuthContext>({
@@ -17,11 +19,16 @@ export const AuthContext = createContext<IAuthContext>({
   authenticate: () => {},
   logout: () => {},
   user: {},
+  isLoading: false,
+  authLoading: () => {},
 });
 
-const AuthContextProvider = ({ children }) => {
+const AuthContextProvider: React.FC<{ children: JSX.Element }> = ({
+  children,
+}) => {
   const [token, setToken] = useState<string | null>("");
   const [user, setUser] = useState(null);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     async function getAuthValues() {
@@ -35,6 +42,10 @@ const AuthContextProvider = ({ children }) => {
     }
     getAuthValues();
   }, []);
+
+  function authLoading() {
+    setLoading(!isLoading);
+  }
 
   async function getUserHandler(id: string) {
     const { data, error } = await getUser(id);
@@ -58,13 +69,14 @@ const AuthContextProvider = ({ children }) => {
     AsyncStorage.removeItem("userId");
   }
 
-  
   const value = {
     token,
     isAuthenticated: !!token,
     authenticate,
     logout,
     user,
+    isLoading,
+    authLoading,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

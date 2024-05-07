@@ -5,12 +5,12 @@ import {
   FlatList,
   Animated,
   useWindowDimensions,
-  SafeAreaView,
 } from "react-native";
 import { slides } from "../../utils/slides";
 import Slide from "./Slide";
 import { useRef, useState } from "react";
 import Paginator from "../paginator/Paginator";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const OnBoarding = ({ navigation }) => {
   const slidesRef = useRef<FlatList>(null);
@@ -31,9 +31,9 @@ const OnBoarding = ({ navigation }) => {
   }
 
   return (
-      <View style={styles.container}>
+    <View style={styles.container}>
         <Paginator currIndex={currIndex} onNextSlide={scrollTo} />
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
           <FlatList
             data={slides}
             renderItem={({ item }) => (
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // bottom: 0,
-    // position: "absolute",
+    position: "relative",
     backgroundColor: "white",
   },
 });

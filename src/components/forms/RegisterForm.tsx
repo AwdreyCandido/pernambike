@@ -8,30 +8,31 @@ import { SignUpFormSchema, signUpFormSchema } from "../../utils/form-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerUser } from "../../services/auth";
 import { AuthContext } from "../../store/AuthContext";
+import Loading from "../layout/Loading";
 
 const RegisterForm = () => {
+  const { authLoading, isLoading, authenticate } = useContext(AuthContext);
   const methods = useForm<SignUpFormSchema>({
     resolver: zodResolver(signUpFormSchema),
     mode: "onBlur",
   });
 
-  const { authenticate } = useContext(AuthContext);
-
   const onSubmit: SubmitHandler<SignUpFormSchema> = async (userData) => {
+    authLoading();
     const { error, session } = await registerUser(userData);
 
     if (!session || error) {
-      return Alert.alert(
-        "Erro no Cadastro",
-        "Por favor, tente novamente mais tarde."
-      );
+      Alert.alert("Erro no Cadastro", "Por favor, tente novamente mais tarde.");
+      return authLoading();
     }
 
     authenticate(session.access_token, session.user.id);
+    authLoading();
   };
 
   return (
     <View>
+      {isLoading && <Loading />}
       <View style={{ gap: 10, marginBottom: 100 }}>
         <Controller
           control={methods.control}

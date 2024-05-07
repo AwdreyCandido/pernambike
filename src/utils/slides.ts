@@ -10,7 +10,7 @@ export const slides = [
     id: "2",
     title: "Bem-vindo ao Pernambike",
     image: require("./../../assets/imgs/qrcode.png"),
-    description: "Aqui, você pode compartilhar suas bicicletas facilmente, de maneira segura e automática. Ou alugar uma bicicleta próximo da sua casa com bastante praticidade.",
+    description: "Aqui, você pode compartilhar suas bicicletas de maneira segura e automática. Ou alugar uma bicicleta próximo da sua casa com bastante praticidade.",
     button: 'Desejo prosseguir'
   },
   {

@@ -9,6 +9,7 @@ import { appFonts } from "./src/utils/fonts";
 import OnBoarding from "./src/components/on-boarding/OnBoarding";
 import AppRoutes from "./src/routes";
 import AuthContextProvider from "./src/store/AuthContext";
+import BikesContextProvider from "./src/store/BikesContext";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -43,10 +44,11 @@ export default function App() {
 
   return (
     <View style={styles.container} onLayout={onLayoutRootView}>
-      {/* <OnBoarding /> */}
+      <StatusBar translucent style="dark" />
       <AuthContextProvider>
-        <StatusBar style="dark" backgroundColor="white"/>
-        <AppRoutes />
+        <BikesContextProvider>
+          <AppRoutes />
+        </BikesContextProvider>
       </AuthContextProvider>
     </View>
   );

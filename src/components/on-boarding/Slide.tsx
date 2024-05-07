@@ -61,12 +61,12 @@ const styles = StyleSheet.create({
   },
   descriptionContainer: {
     width: "100%",
-    height: 200,
+    height: 170,
   },
   buttonContainer: {
     width: "100%",
-    height: 100,
     paddingHorizontal: 20,
+    paddingVertical: 40
   },
   container: {
     justifyContent: "space-between",
@@ -88,7 +88,8 @@ const styles = StyleSheet.create({
     fontFamily: "dmsans regular",
     zIndex: 1,
     paddingHorizontal: 22,
-    textAlignVertical: "top",
+    textAlignVertical: "center",
+    // textAlign: 'center'
   },
   blob: {
     height: 520,
