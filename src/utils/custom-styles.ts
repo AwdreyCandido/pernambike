@@ -1,3 +1,5 @@
+import { RFValue } from "react-native-responsive-fontsize";
+
 export const colors = {
   primary: {
     "1": "#5464FF",
@@ -24,33 +26,33 @@ export const colors = {
 
 export const texts = {
   dmTitle: {
-    regular: { fontSize: 42, fontFamily: "dmsans regular" },
-    medium: { fontSize: 42, fontFamily: "dmsans medium" },
-    bold: { fontSize: 42, fontFamily: "dmsans bold" },
+    regular: { fontSize: RFValue(32), fontFamily: "dmsans regular" },
+    medium: { fontSize: RFValue(32), fontFamily: "dmsans medium" },
+    bold: { fontSize: RFValue(32), fontFamily: "dmsans bold" },
   },
   dmTitle2: {
-    regular: { fontSize: 26, fontFamily: "dmsans regular" },
-    medium: { fontSize: 26, fontFamily: "dmsans medium" },
-    bold: { fontSize: 26, fontFamily: "dmsans bold" },
+    regular: { fontSize: RFValue(20), fontFamily: "dmsans regular" },
+    medium: { fontSize: RFValue(20), fontFamily: "dmsans medium" },
+    bold: { fontSize: RFValue(20), fontFamily: "dmsans bold" },
   },
   dmText: {
-    regular: { fontSize: 20, fontFamily: "dmsans regular" },
-    medium: { fontSize: 20, fontFamily: "dmsans medium" },
-    bold: { fontSize: 20, fontFamily: "dmsans bold" },
+    regular: { fontSize: RFValue(16), fontFamily: "dmsans regular" },
+    medium: { fontSize: RFValue(16), fontFamily: "dmsans medium" },
+    bold: { fontSize: RFValue(16), fontFamily: "dmsans bold" },
   },
   soraTitle: {
-    regular: { fontSize: 42, fontFamily: "sora regular" },
-    medium: { fontSize: 42, fontFamily: "sora medium" },
-    bold: { fontSize: 42, fontFamily: "sora bold" },
+    regular: { fontSize: RFValue(32), fontFamily: "sora regular" },
+    medium: { fontSize: RFValue(32), fontFamily: "sora medium" },
+    bold: { fontSize: RFValue(32), fontFamily: "sora bold" },
   },
   soraTitle2: {
-    regular: { fontSize: 26, fontFamily: "sora regular" },
-    medium: { fontSize: 26, fontFamily: "sora medium" },
-    bold: { fontSize: 26, fontFamily: "sora bold" },
+    regular: { fontSize: RFValue(20), fontFamily: "sora regular" },
+    medium: { fontSize: RFValue(20), fontFamily: "sora medium" },
+    bold: { fontSize: RFValue(20), fontFamily: "sora bold" },
   },
   soraText: {
-    regular: { fontSize: 20, fontFamily: "sora regular" },
-    medium: { fontSize: 20, fontFamily: "sora medium" },
-    bold: { fontSize: 20, fontFamily: "sora bold" },
+    regular: { fontSize: RFValue(16), fontFamily: "sora regular" },
+    medium: { fontSize: RFValue(16), fontFamily: "sora medium" },
+    bold: { fontSize: RFValue(16), fontFamily: "sora bold" },
   },
 };

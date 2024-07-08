@@ -1,3 +1,4 @@
+import React from "react";
 import {
   StyleSheet,
   Text,
@@ -32,29 +33,29 @@ const OnBoarding = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-        <Paginator currIndex={currIndex} onNextSlide={scrollTo} />
-        <View style={{ flex: 1 }}>
-          <FlatList
-            data={slides}
-            renderItem={({ item }) => (
-              <Slide item={item} currIndex={currIndex} onNextSlide={scrollTo} />
-            )}
-            keyExtractor={(item) => item.id}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            pagingEnabled
-            scrollEventThrottle={52}
-            bounces={false}
-            onViewableItemsChanged={viewableItemsChanged}
-            onScroll={Animated.event(
-              [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-              { useNativeDriver: false }
-            )}
-            viewabilityConfig={{ itemVisiblePercentThreshold: 50 }}
-            ref={slidesRef}
-          />
-        </View>
+      <Paginator currIndex={currIndex} onNextSlide={scrollTo} />
+      <View style={{ flex: 1 }}>
+        <FlatList
+          data={slides}
+          renderItem={({ item }) => (
+            <Slide item={item} currIndex={currIndex} onNextSlide={scrollTo} />
+          )}
+          keyExtractor={(item) => item.id}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          pagingEnabled
+          scrollEventThrottle={52}
+          bounces={false}
+          onViewableItemsChanged={viewableItemsChanged}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+            { useNativeDriver: false }
+          )}
+          viewabilityConfig={{ itemVisiblePercentThreshold: 50 }}
+          ref={slidesRef}
+        />
       </View>
+    </View>
   );
 };
 

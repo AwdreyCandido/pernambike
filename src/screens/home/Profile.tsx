@@ -10,15 +10,19 @@ import { logoutUser } from "../../services/auth";
 import { AuthContext } from "../../store/AuthContext";
 
 const Profile = () => {
-  const { logout, user } = useContext(AuthContext);
+  const { logout, user, authLoading } = useContext(AuthContext);
 
   async function logoutHandler() {
+    authLoading();
     const error = await logoutUser();
     if (!error) {
       return logout();
     }
 
-    return Alert.alert("Erro ao fazer logout, Tente novamente mais tarde.");
+    Alert.alert("Erro ao fazer logout, Tente novamente mais tarde.");
+    authLoading();
+
+    return
   }
 
   return (

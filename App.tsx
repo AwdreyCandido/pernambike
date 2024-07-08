@@ -1,12 +1,11 @@
+import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
 import { useCallback, useEffect, useState } from "react";
-import Entypo from "@expo/vector-icons/Entypo";
 import { appFonts } from "./src/utils/fonts";
-import OnBoarding from "./src/components/on-boarding/OnBoarding";
 import AppRoutes from "./src/routes";
 import AuthContextProvider from "./src/store/AuthContext";
 import BikesContextProvider from "./src/store/BikesContext";
@@ -20,7 +19,7 @@ export default function App() {
   useEffect(() => {
     async function prepare() {
       try {
-        await Font.loadAsync(Entypo.font);
+        await Font.loadAsync(appFonts);
         await new Promise((resolve) => setTimeout(resolve, 2000));
       } catch (e) {
         console.warn(e);

@@ -1,3 +1,4 @@
+import React from "react";
 import { createContext, useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import { getUser } from "../services/user";
@@ -13,15 +14,7 @@ interface IAuthContext {
   authLoading: () => void;
 }
 
-export const AuthContext = createContext<IAuthContext>({
-  token: "",
-  isAuthenticated: false,
-  authenticate: () => {},
-  logout: () => {},
-  user: {},
-  isLoading: false,
-  authLoading: () => {},
-});
+export const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 
 const AuthContextProvider: React.FC<{ children: JSX.Element }> = ({
   children,
