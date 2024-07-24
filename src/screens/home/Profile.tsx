@@ -4,10 +4,10 @@ import { colors, texts } from "../../utils/custom-styles";
 import { FlatList } from "react-native-gesture-handler";
 import { profileButtons } from "../../data/profile-buttons";
 import { Ionicons } from "@expo/vector-icons";
-import OutlineButton from "../../components/buttons/OulineButton";
-import PrimaryButton from "../../components/buttons/PrimaryButton";
 import { logoutUser } from "../../services/auth";
 import { AuthContext } from "../../store/AuthContext";
+import OutlineButton from "../../components/buttons/OulineButton";
+import PrimaryButton from "../../components/buttons/PrimaryButton";
 
 const Profile = () => {
   const { logout, user, authLoading } = useContext(AuthContext);
@@ -16,13 +16,14 @@ const Profile = () => {
     authLoading();
     const error = await logoutUser();
     if (!error) {
+      authLoading();
       return logout();
     }
 
     Alert.alert("Erro ao fazer logout, Tente novamente mais tarde.");
     authLoading();
 
-    return
+    return;
   }
 
   return (

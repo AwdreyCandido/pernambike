@@ -86,7 +86,12 @@ const BikeDetails = ({ navigation, route }: any) => {
             reviewsQuantity={bike?.reviewsQuantity}
           />
           <View style={{ gap: 20, paddingVertical: 20 }}>
-            <PrimaryButton title="Quero alugar esta bike" onPress={() => {}} />
+            <PrimaryButton
+              title="Quero alugar esta bike"
+              onPress={() => {
+                navigation.navigate("bike-availability");
+              }}
+            />
             <OutlineButton
               title="Ver disponibilidade"
               onPress={() => {}}

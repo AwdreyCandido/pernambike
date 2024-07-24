@@ -1,10 +1,10 @@
+import React, { useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { AuthContext } from "../store/AuthContext";
 import OnBoarding from "../components/on-boarding/OnBoarding";
 import LoginScreen from "../screens/auth/LoginScreen";
 import RegisterScreen from "../screens/auth/RegisterScreen";
-import { useContext } from "react";
-import { AuthContext } from "../store/AuthContext";
 
 const Stack = createStackNavigator();
 
