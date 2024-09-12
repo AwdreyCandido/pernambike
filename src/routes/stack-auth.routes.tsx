@@ -11,23 +11,24 @@ const Stack = createStackNavigator();
 export default function AuthRoutes() {
   const { token } = useContext(AuthContext);
 
-  return (
-    <Stack.Navigator initialRouteName={token === "" ? "onboarding" : "login"}>
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="onboarding"
-        component={OnBoarding}
-      />
-      <Stack.Screen
-        options={{ headerShown: false, presentation: "modal" }}
-        name="login"
-        component={LoginScreen}
-      />
-      <Stack.Screen
-        options={{ headerShown: false, presentation: "card" }}
-        name="register"
-        component={RegisterScreen}
-      />
-    </Stack.Navigator>
+  return (<>
+  </>
+    // <Stack.Navigator initialRouteName={token === "" ? "onboarding" : "login"}>
+    //   <Stack.Screen
+    //     options={{ headerShown: false }}
+    //     name="onboarding"
+    //     component={OnBoarding}
+    //   />
+    //   <Stack.Screen
+    //     options={{ headerShown: false, presentation: "modal" }}
+    //     name="login"
+    //     component={LoginScreen}
+    //   />
+    //   <Stack.Screen
+    //     options={{ headerShown: false, presentation: "card" }}
+    //     name="register"
+    //     component={RegisterScreen}
+    //   />
+    // </Stack.Navigator>
   );
 }

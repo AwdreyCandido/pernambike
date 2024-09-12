@@ -7,12 +7,31 @@ import BikeDetails from "../screens/bike/BikeDetails";
 import BikeAvailability from "../screens/bike/BikeAvailability";
 import BikeRentSummary from "../screens/bike/BikeRentSummary";
 import PaymentScreen from "../screens/checkout/PaymentScreen";
+import OnBoarding from "../components/on-boarding/OnBoarding";
+import LoginScreen from "../screens/auth/LoginScreen";
+import RegisterScreen from "../screens/auth/RegisterScreen";
+import AuthRoutes from "./stack-auth.routes";
 
 const Stack = createStackNavigator();
 
 const StackRoutes = () => {
   return (
     <Stack.Navigator>
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="onboarding"
+        component={OnBoarding}
+      />
+      <Stack.Screen
+        options={{ headerShown: false, presentation: "modal" }}
+        name="login"
+        component={LoginScreen}
+      />
+      <Stack.Screen
+        options={{ headerShown: false, presentation: "card" }}
+        name="register"
+        component={RegisterScreen}
+      />
       <Stack.Screen
         options={{ headerShown: false }}
         name="initial-page"

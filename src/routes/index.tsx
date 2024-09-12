@@ -12,8 +12,9 @@ export default function AppRoutes() {
 
   return (
     <NavigationContainer>
-        {!token && <AuthRoutes />}
-        {token && <StackRoutes />}
+      {!token && <AuthRoutes />}
+      {/* {token && <StackRoutes />} */}
+      <StackRoutes />
     </NavigationContainer>
   );
 }

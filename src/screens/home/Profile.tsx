@@ -11,7 +11,7 @@ import PrimaryButton from "../../components/buttons/PrimaryButton";
 import Loading from "../../components/layout/Loading";
 
 const Profile = ({ navigation, route }: any) => {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, token } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
 
   async function logoutHandler() {
@@ -19,6 +19,7 @@ const Profile = ({ navigation, route }: any) => {
     const error = await logoutUser();
     if (!error) {
       setIsLoading(false);
+      navigation.navigate("login");
       return logout();
     }
 
@@ -45,44 +46,56 @@ const Profile = ({ navigation, route }: any) => {
     <View style={styles.container}>
       {isLoading && <Loading />}
       {/* PROFILE CARD */}
-      <View style={styles.card}>
+      <View style={[styles.card, token ? { height: 250 } : { height: 200 }]}>
         <View style={styles.imageContainer}>
           <Image style={styles.image} source={profileImageSource} />
-          <View style={{ alignItems: "center" }}>
-            <Text style={[texts.dmTitle2.bold]}>{user?.name}</Text>
-            <Text style={[texts.dmText.regular]}>{user?.email}</Text>
-          </View>
+          {token ? (
+            <View style={{ alignItems: "center" }}>
+              <Text style={[texts.dmTitle2.bold]}>{user?.name}</Text>
+              <Text style={[texts.dmText.regular]}>{user?.email}</Text>
+            </View>
+          ) : (
+            <></>
+          )}
         </View>
-        <View style={styles.divider}></View>
-        <View style={styles.infoContainer}>
-          <View
-            style={{
-              flex: 1,
-              borderBottomWidth: 0.3,
-              borderBottomColor: colors.dark[3],
-            }}
-          >
-            <Text style={[texts.soraTitle2.bold]}>{user?.rents}</Text>
-            <Text>Alugueis</Text>
-          </View>
-          <View
-            style={{
-              flex: 1,
-              borderBottomWidth: 0.3,
-              borderBottomColor: colors.dark[3],
-            }}
-          >
-            <Text style={[texts.soraTitle2.bold]}>{user?.reviewsQuantity}</Text>
-            <Text>Avaliações</Text>
-          </View>
-          <View style={{ flex: 1 }}>
-            <Text style={[texts.soraText.bold]}>Entrou em</Text>
-            <Text>
-              {user?.createdAt &&
-                new Date(user?.createdAt).toLocaleDateString()}
-            </Text>
-          </View>
-        </View>
+        {token ? (
+          <>
+            <View style={styles.divider}></View>
+            <View style={styles.infoContainer}>
+              <View
+                style={{
+                  flex: 1,
+                  borderBottomWidth: 0.3,
+                  borderBottomColor: colors.dark[3],
+                }}
+              >
+                <Text style={[texts.soraTitle2.bold]}>{user?.rents || 0}</Text>
+                <Text>Alugueis</Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  borderBottomWidth: 0.3,
+                  borderBottomColor: colors.dark[3],
+                }}
+              >
+                <Text style={[texts.soraTitle2.bold]}>
+                  {user?.reviewsQuantity || 0}
+                </Text>
+                <Text>Avaliações</Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={[texts.soraText.bold]}>Entrou em</Text>
+                <Text>
+                  {user?.createdAt &&
+                    new Date(user?.createdAt).toLocaleDateString()}
+                </Text>
+              </View>
+            </View>
+          </>
+        ) : (
+          <></>
+        )}
       </View>
       {/* PROFILE BUTTONS */}
 
@@ -95,36 +108,67 @@ const Profile = ({ navigation, route }: any) => {
           numColumns={3}
           renderItem={({ item }) => {
             return (
-              <Pressable
-                style={({ pressed }) => [
-                  styles.button,
-                  pressed && { opacity: 0.65 },
-                ]}
-                onPress={() => {
-                  navigationHandler(item.id);
-                }}
-              >
-                <Ionicons
-                  name={item.iconName}
-                  size={30}
-                  color={colors.lightgray}
-                />
-                <Text style={styles.buttonText}>{item.title}</Text>
-              </Pressable>
+              <>
+                {token ? (
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.button,
+                      pressed && { opacity: 0.65 },
+                    ]}
+                    onPress={() => {
+                      navigationHandler(item.id);
+                    }}
+                  >
+                    <Ionicons
+                      name={item.iconName}
+                      size={30}
+                      color={colors.lightgray}
+                    />
+                    <Text style={styles.buttonText}>{item.title}</Text>
+                  </Pressable>
+                ) : (
+                  <View style={[styles.button, styles.disabled]}>
+                    <Ionicons
+                      name={item.iconName}
+                      size={30}
+                      color={colors.lightgray}
+                    />
+                    <Text style={styles.buttonText}>{item.title}</Text>
+                  </View>
+                )}
+              </>
             );
           }}
         />
       </View>
       <View style={styles.buttonContainer}>
-        <OutlineButton title="Precisa de ajuda?" onPress={() => {}} />
-        <PrimaryButton
-          title="Sair"
-          type="del"
-          icon={
-            <Ionicons name="exit-outline" size={30} color={colors.lightgray} />
-          }
-          onPress={logoutHandler}
-        />
+        {token ? (
+          <>
+            <OutlineButton title="Precisa de ajuda?" onPress={() => {}} />
+            <PrimaryButton
+              title="Sair"
+              type="del"
+              icon={
+                <Ionicons
+                  name="exit-outline"
+                  size={30}
+                  color={colors.lightgray}
+                />
+              }
+              onPress={logoutHandler}
+            />
+          </>
+        ) : (
+          <>
+            <Text style={[{ textAlign: "center", color: colors.dark[1] }]}>
+              VOCÊ NÃO ESTÁ LOGADO
+            </Text>
+            <PrimaryButton
+              title="Fazer Login"
+              onPress={() => navigation.navigate("login")}
+            />
+          </>
+        )}
       </View>
     </View>
   );
@@ -143,28 +187,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: colors.lightgray,
     width: "100%",
-    height: 250,
     borderRadius: 30,
     overflow: "hidden",
   },
   image: {
     width: 130,
     height: 130,
-    // backgroundColor: "green",
     borderWidth: 2,
     borderColor: colors.primary[3],
     borderRadius: 100,
   },
   imageContainer: {
     flex: 2,
-    height: 250,
     alignItems: "center",
     justifyContent: "center",
     gap: 20,
   },
   infoContainer: {
     // flex: 1,
-    height: 250,
     paddingHorizontal: 15,
     paddingVertical: 20,
   },
@@ -183,6 +223,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     gap: 4,
+  },
+  disabled: {
+    backgroundColor: colors.dark[5],
   },
   buttonText: {
     fontSize: 16,

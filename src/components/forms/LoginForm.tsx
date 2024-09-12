@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors, texts } from "../../utils/custom-styles";
 import React, { useContext, useState } from "react";
 import OutlineButton from "../buttons/OulineButton";
@@ -10,10 +10,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginUser } from "../../services/auth";
 import { AuthContext } from "../../store/AuthContext";
 import Loading from "../layout/Loading";
+import { useNavigation } from "@react-navigation/native";
 
 const LoginForm = ({ toRegisterScreen }) => {
   const { authenticate } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
+
+  const navigation = useNavigation();
 
   const methods = useForm<LoginFormSchema>({
     resolver: zodResolver(loginFormSchema),
@@ -30,6 +33,7 @@ const LoginForm = ({ toRegisterScreen }) => {
     }
 
     authenticate(session.access_token, session.user.id);
+    navigation.navigate("initial-page");
     setIsLoading(false);
   };
 
@@ -88,6 +92,25 @@ const LoginForm = ({ toRegisterScreen }) => {
         />
         <Text style={[texts.dmText.medium, { textAlign: "center" }]}>ou</Text>
         <OutlineButton title="Fazer Cadastro" onPress={toRegisterScreen} />
+        <View
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            marginTop: 15,
+          }}
+        >
+          <TouchableOpacity onPress={() => navigation.navigate("initial-page")}>
+            <Text
+              style={[
+                texts.dmText.medium,
+                { textAlign: "center", color: colors.primary[1] },
+              ]}
+            >
+              Entrar sem Login
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

@@ -18,11 +18,13 @@ import { IBike } from "../../domain/Bike";
 import { BikesContext } from "../../store/BikesContext";
 import OutlineButton from "../../components/buttons/OulineButton";
 import Loading from "../../components/layout/Loading";
+import { AuthContext } from "../../store/AuthContext";
 
 const BikeDetails = ({ navigation, route }: any) => {
   const bikeId = route.params.bikeId;
   const [bike, setBike] = useState<IBike | null>(null);
   const { bikesList, rentedBike } = useContext(BikesContext);
+  const { token } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -60,8 +62,7 @@ const BikeDetails = ({ navigation, route }: any) => {
 
   return (
     <View style={styles.container}>
-      {isLoading
-      && <Loading/>}
+      {isLoading && <Loading />}
       <Pressable style={styles.backButton} onPress={goBackHandler}>
         <Ionicons name="chevron-back-outline" size={28} color="white" />
       </Pressable>
@@ -97,14 +98,24 @@ const BikeDetails = ({ navigation, route }: any) => {
             <Text style={styles.subtext}>{bike?.users.location}</Text>
           </View>
           <BikeOwner
-            name={bike?.users.name}
-            photoUrl={bike?.users.photoUrl}
-            price={bike?.price}
-            reviewsQuantity={bike?.reviewsQuantity}
+            name={bike?.users.name!}
+            photoUrl={bike?.users.photoUrl!}
+            price={Number(bike?.price)!}
+            reviewsQuantity={bike?.reviewsQuantity!}
           />
           <View style={{ gap: 20, paddingVertical: 20 }}>
+            {!token && (
+              <Text
+                style={[
+                  texts.dmText.medium,
+                  { textAlign: "center", color: colors.text },
+                ]}
+              >
+                Você precisa estar logado
+              </Text>
+            )}
             <PrimaryButton
-              disabled={bike?.isRented}
+              disabled={!token || bike?.isRented}
               title={
                 bike?.isRented ? "Bike já alugada" : "Quero alugar esta bike"
               }
