@@ -1,5 +1,5 @@
 import { Alert, StyleSheet, Text, View } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { colors } from "../../utils/custom-styles";
 import PrimaryButton from "../buttons/PrimaryButton";
 import Input from "../inputs/Input";
@@ -11,23 +11,24 @@ import { AuthContext } from "../../store/AuthContext";
 import Loading from "../layout/Loading";
 
 const RegisterForm = () => {
-  const { authLoading, isLoading, authenticate } = useContext(AuthContext);
+  const { authenticate } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
   const methods = useForm<SignUpFormSchema>({
     resolver: zodResolver(signUpFormSchema),
     mode: "onBlur",
   });
 
   const onSubmit: SubmitHandler<SignUpFormSchema> = async (userData) => {
-    authLoading();
+    setIsLoading(true);
     const { error, session } = await registerUser(userData);
 
     if (!session || error) {
       Alert.alert("Erro no Cadastro", "Por favor, tente novamente mais tarde.");
-      return authLoading();
+      return setIsLoading(false);
     }
 
     authenticate(session.access_token, session.user.id);
-    authLoading();
+    setIsLoading(false);
   };
 
   return (

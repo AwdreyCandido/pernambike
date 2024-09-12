@@ -5,6 +5,8 @@ import HomeScreen from "../screens/home/HomeScreen";
 import TabRoutes from "./tab.routes";
 import BikeDetails from "../screens/bike/BikeDetails";
 import BikeAvailability from "../screens/bike/BikeAvailability";
+import BikeRentSummary from "../screens/bike/BikeRentSummary";
+import PaymentScreen from "../screens/checkout/PaymentScreen";
 
 const Stack = createStackNavigator();
 
@@ -22,9 +24,19 @@ const StackRoutes = () => {
         component={BikeDetails}
       />
       <Stack.Screen
-        options={{ presentation: "modal", title: "Disponibilidade" }}
+        options={{ presentation: "modal", title: "Escolher Datas" }}
         name="bike-availability"
         component={BikeAvailability}
+      />
+      <Stack.Screen
+        options={{ presentation: "card", title: "Revisão" }}
+        name="bike-rent-summary"
+        component={BikeRentSummary}
+      />
+      <Stack.Screen
+        options={{ presentation: "card", title: "Pagamento" }}
+        name="bike-rent-payment"
+        component={PaymentScreen}
       />
     </Stack.Navigator>
   );

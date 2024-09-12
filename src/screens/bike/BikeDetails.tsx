@@ -7,36 +7,51 @@ import {
   Alert,
   Pressable,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { colors, texts } from "../../utils/custom-styles";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import BikeOwner from "../../components/bike-owner/BikeOwner";
 import ExpandingCard from "../../components/cards/ExpandingCard";
 import { Ionicons } from "@expo/vector-icons";
-import OutlineButton from "../../components/buttons/OulineButton";
 import { getBike } from "../../services/bikes";
 import { IBike } from "../../domain/Bike";
+import { BikesContext } from "../../store/BikesContext";
+import OutlineButton from "../../components/buttons/OulineButton";
+import Loading from "../../components/layout/Loading";
 
 const BikeDetails = ({ navigation, route }: any) => {
   const bikeId = route.params.bikeId;
-  const [bike, setBike] = useState<IBike>();
+  const [bike, setBike] = useState<IBike | null>(null);
+  const { bikesList, rentedBike } = useContext(BikesContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getAllBikesHandler(bikeId);
-  }, []);
+  }, [bikeId]);
 
-  async function getAllBikesHandler(id: string) {
-    const { data, error } = await getBike(id);
-
-    if (error || !data) {
+  async function getAllBikesHandler(id: number) {
+    setIsLoading(true);
+    try {
+      const { data, error } = await getBike(id);
+      if (error || !data) {
+        goBackHandler();
+        setIsLoading(false);
+        return Alert.alert(
+          "Erro ao buscar detalhes da bike",
+          "Por favor, verifique sua conexão com a internet."
+        );
+      }
+      setBike(data);
+    } catch (error) {
+      setIsLoading(false);
       goBackHandler();
-      return Alert.alert(
+      Alert.alert(
         "Erro ao buscar detalhes da bike",
         "Por favor, verifique sua conexão com a internet."
       );
+      console.error(error);
     }
-
-    setBike(data);
+    setIsLoading(false);
   }
 
   function goBackHandler() {
@@ -45,6 +60,8 @@ const BikeDetails = ({ navigation, route }: any) => {
 
   return (
     <View style={styles.container}>
+      {isLoading
+      && <Loading/>}
       <Pressable style={styles.backButton} onPress={goBackHandler}>
         <Ionicons name="chevron-back-outline" size={28} color="white" />
       </Pressable>
@@ -67,7 +84,7 @@ const BikeDetails = ({ navigation, route }: any) => {
                 alignItems: "flex-start",
               }}
             >
-              <Text style={[texts.dmTitle2.bold, { width: "80%" }]}>
+              <Text style={[texts.dmTitle2.bold, { width: "70%" }]}>
                 {bike?.title}
               </Text>
               <View
@@ -87,9 +104,16 @@ const BikeDetails = ({ navigation, route }: any) => {
           />
           <View style={{ gap: 20, paddingVertical: 20 }}>
             <PrimaryButton
-              title="Quero alugar esta bike"
+              disabled={bike?.isRented}
+              title={
+                bike?.isRented ? "Bike já alugada" : "Quero alugar esta bike"
+              }
               onPress={() => {
-                navigation.navigate("bike-availability");
+                if (rentedBike != null) {
+                  Alert.alert("Você já tem um aluguel vigente");
+                  return;
+                }
+                navigation.navigate("bike-availability", { bikeId });
               }}
             />
             <OutlineButton

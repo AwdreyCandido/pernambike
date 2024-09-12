@@ -31,9 +31,9 @@ export const texts = {
     bold: { fontSize: RFValue(32), fontFamily: "dmsans bold" },
   },
   dmTitle2: {
-    regular: { fontSize: RFValue(20), fontFamily: "dmsans regular" },
-    medium: { fontSize: RFValue(20), fontFamily: "dmsans medium" },
-    bold: { fontSize: RFValue(20), fontFamily: "dmsans bold" },
+    regular: { fontSize: RFValue(24), fontFamily: "dmsans regular" },
+    medium: { fontSize: RFValue(24), fontFamily: "dmsans medium" },
+    bold: { fontSize: RFValue(24), fontFamily: "dmsans bold" },
   },
   dmText: {
     regular: { fontSize: RFValue(16), fontFamily: "dmsans regular" },

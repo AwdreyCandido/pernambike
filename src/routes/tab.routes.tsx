@@ -9,6 +9,7 @@ import Profile from "../screens/home/Profile";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text } from "react-native";
 import CustomHeader from "../components/layout/Header";
+import React from "react";
 
 const Tab = createBottomTabNavigator();
 

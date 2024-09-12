@@ -1,7 +1,8 @@
 import z from "zod";
 
 const PHONE_REGEX = /(?:(^\+\d{2})?)(?:([1-9]{2})|([0-9]{3})?)(\d{4,5})(\d{4})/;
-const NAME_REGEX = /\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú]{2,19}\b/gi;
+// const NAME_REGEX = /\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú]{2,19}\b/gi;
+const NAME_REGEX = /^[A-Za-zÀ-ú\s]+$/;
 
 export const signUpFormSchema = z.object({
   name: z

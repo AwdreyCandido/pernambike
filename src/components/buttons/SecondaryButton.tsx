@@ -1,16 +1,13 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import React from "react";
 import { colors } from "../../utils/custom-styles";
-import { color } from "react-native-elements/dist/helpers";
 
-const PrimaryButton: React.FC<{
+const SecondaryButton: React.FC<{
   title: string;
   type?: string;
-  disabled?: boolean;
-  style?: {};
   icon?: JSX.Element;
   onPress: () => void;
-}> = ({ title, onPress, icon, type, style, disabled }) => {
+}> = ({ title, onPress, icon, type }) => {
   let typeStyles: {} = {};
 
   switch (type) {
@@ -23,38 +20,36 @@ const PrimaryButton: React.FC<{
 
   return (
     <Pressable
-      disabled={disabled}
-      style={({ pressed }) => pressed && { opacity: 0.65 }}
+      style={({ pressed }) => pressed && { opacity: 0.55 }}
       onPress={onPress}
     >
-      <View style={[styles.button, typeStyles, style, disabled && {backgroundColor: colors.primary[4]}]}>
-        <Text style={[styles.title, style]}>{title}</Text>
+      {/* <View style={[styles.button, typeStyles]}> */}
+        <Text style={styles.title}>{title}</Text>
         {icon && icon}
-      </View>
+      {/* </View> */}
     </Pressable>
   );
 };
 
-export default PrimaryButton;
+export default SecondaryButton;
 
 const styles = StyleSheet.create({
   button: {
-    width: "100%",
-    backgroundColor: colors.primary[1],
+    width: '100%',
+    // backgroundColor: colors.primary[1],
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 50,
+    // gap: 10,
+    // padding: 5,
+    // borderRadius: 10,
     justifyContent: "center",
     elevation: 2,
     overflow: "hidden",
   },
   title: {
     fontFamily: "sora semibold",
-    fontSize: 20,
-    color: "white",
+    fontSize: 14,
+    color: colors.primary[1],
     textAlign: "center",
   },
 });

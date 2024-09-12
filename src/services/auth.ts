@@ -13,7 +13,7 @@ type LoginUser = { email: string; password: string };
 
 export async function registerUser(user: RegisterUser) {
   const {
-    data: { session },
+    data: { user: authUser, session },
     error,
   } = await supabase.auth.signUp({
     email: user.email,
@@ -26,9 +26,29 @@ export async function registerUser(user: RegisterUser) {
     },
   });
 
+  if (error) {
+    return {
+      session,
+      error,
+    };
+  }
+
+  const { data: newUser, error: insertError } = await supabase
+    .from('users')
+    .insert([
+      {
+        id: authUser?.id,  // Use the id from auth.users
+        name: user.name,
+        phone: user.phone,
+        email: user.email,
+        // any other fields you want to insert
+      },
+    ]);
+
   return {
     session,
-    error,
+    error: insertError,
+    newUser,
   };
 }
 

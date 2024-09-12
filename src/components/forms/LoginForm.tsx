@@ -12,7 +12,8 @@ import { AuthContext } from "../../store/AuthContext";
 import Loading from "../layout/Loading";
 
 const LoginForm = ({ toRegisterScreen }) => {
-  const { authLoading, isLoading, authenticate } = useContext(AuthContext);
+  const { authenticate } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   const methods = useForm<LoginFormSchema>({
     resolver: zodResolver(loginFormSchema),
@@ -20,16 +21,16 @@ const LoginForm = ({ toRegisterScreen }) => {
   });
 
   const onSubmit: SubmitHandler<LoginFormSchema> = async (userData) => {
-    authLoading();
+    setIsLoading(true);
     const { session, error } = await loginUser(userData);
 
     if (!session || error) {
       Alert.alert("Erro no Login", "Por favor, cheque suas credenciais.");
-      return authLoading();
+      return setIsLoading(false);
     }
 
     authenticate(session.access_token, session.user.id);
-    authLoading();
+    setIsLoading(false);
   };
 
   return (

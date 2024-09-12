@@ -5,6 +5,7 @@ import { AuthContext } from "../store/AuthContext";
 import HomeScreen from "../screens/home/HomeScreen";
 import StackRoutes from "./stack.routes";
 import { SafeAreaView } from "react-native";
+import React from "react";
 
 export default function AppRoutes() {
   const { token } = useContext(AuthContext);

@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, Image, Alert } from "react-native";
-import React, { useContext } from "react";
+import { StyleSheet, Text, View, Image, Alert, Pressable } from "react-native";
+import React, { useContext, useState } from "react";
 import { colors, texts } from "../../utils/custom-styles";
 import { FlatList } from "react-native-gesture-handler";
 import { profileButtons } from "../../data/profile-buttons";
@@ -8,30 +8,46 @@ import { logoutUser } from "../../services/auth";
 import { AuthContext } from "../../store/AuthContext";
 import OutlineButton from "../../components/buttons/OulineButton";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
+import Loading from "../../components/layout/Loading";
 
-const Profile = () => {
-  const { logout, user, authLoading } = useContext(AuthContext);
+const Profile = ({ navigation, route }: any) => {
+  const { user, logout } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function logoutHandler() {
-    authLoading();
+    setIsLoading(true);
     const error = await logoutUser();
     if (!error) {
-      authLoading();
+      setIsLoading(false);
       return logout();
     }
 
     Alert.alert("Erro ao fazer logout, Tente novamente mais tarde.");
-    authLoading();
+    setIsLoading(false);
 
     return;
   }
 
+  function navigationHandler(id: number) {
+    switch (id) {
+      case 3: {
+        navigation.navigate("bicycles");
+        break;
+      }
+    }
+  }
+
+  const profileImageSource = user?.photoUrl
+    ? { uri: user.photoUrl }
+    : require("./../../../assets/imgs/profile.png");
+
   return (
     <View style={styles.container}>
+      {isLoading && <Loading />}
       {/* PROFILE CARD */}
       <View style={styles.card}>
         <View style={styles.imageContainer}>
-          <Image style={styles.image} source={{ uri: user?.photoUrl }} />
+          <Image style={styles.image} source={profileImageSource} />
           <View style={{ alignItems: "center" }}>
             <Text style={[texts.dmTitle2.bold]}>{user?.name}</Text>
             <Text style={[texts.dmText.regular]}>{user?.email}</Text>
@@ -79,14 +95,22 @@ const Profile = () => {
           numColumns={3}
           renderItem={({ item }) => {
             return (
-              <View style={styles.button}>
+              <Pressable
+                style={({ pressed }) => [
+                  styles.button,
+                  pressed && { opacity: 0.65 },
+                ]}
+                onPress={() => {
+                  navigationHandler(item.id);
+                }}
+              >
                 <Ionicons
                   name={item.iconName}
                   size={30}
                   color={colors.lightgray}
                 />
                 <Text style={styles.buttonText}>{item.title}</Text>
-              </View>
+              </Pressable>
             );
           }}
         />
@@ -127,8 +151,8 @@ const styles = StyleSheet.create({
     width: 130,
     height: 130,
     // backgroundColor: "green",
-    borderWidth: 1,
-    borderColor: "black",
+    borderWidth: 2,
+    borderColor: colors.primary[3],
     borderRadius: 100,
   },
   imageContainer: {

@@ -9,6 +9,7 @@ import { appFonts } from "./src/utils/fonts";
 import AppRoutes from "./src/routes";
 import AuthContextProvider from "./src/store/AuthContext";
 import BikesContextProvider from "./src/store/BikesContext";
+import { StripeProvider } from "@stripe/stripe-react-native";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -44,11 +45,13 @@ export default function App() {
   return (
     <View style={styles.container} onLayout={onLayoutRootView}>
       <StatusBar translucent style="dark" />
-      <AuthContextProvider>
-        <BikesContextProvider>
-          <AppRoutes />
-        </BikesContextProvider>
-      </AuthContextProvider>
+      <StripeProvider publishableKey="pk_test_51PjEEdRr139V5pLehJoVuZdXmCIE4EvCsnkFOgIBlaaV02efykVaQvhNEZD9FyYA8Fv7eDMDKh0xTbJILqd7KK2y00LmIDts0C">
+        <AuthContextProvider>
+          <BikesContextProvider>
+            <AppRoutes />
+          </BikesContextProvider>
+        </AuthContextProvider>
+      </StripeProvider>
     </View>
   );
 }

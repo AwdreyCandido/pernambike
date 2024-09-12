@@ -37,7 +37,6 @@ const AuthContextProvider: React.FC<{ children: JSX.Element }> = ({
   }, []);
 
   function authLoading() {
-    setLoading(!isLoading);
   }
 
   async function getUserHandler(id: string) {

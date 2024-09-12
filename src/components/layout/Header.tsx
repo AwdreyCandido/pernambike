@@ -18,12 +18,14 @@ const CustomHeader = () => {
   function goToProfilePage() {
     navigation.navigate("profile");
   }
+  
+  const profileImageSource = user?.photoUrl ? { uri: user.photoUrl } : require("./../../../assets/imgs/profile.png");
 
   return (
     <View style={styles.container}>
       <Image source={require("./../../../assets/imgs/sub-title-logo-2.png")} />
       <TouchableWithoutFeedback onPress={goToProfilePage}>
-        <Image source={{ uri: user?.photoUrl }} style={styles.image} />
+        <Image source={profileImageSource} style={styles.image} />
       </TouchableWithoutFeedback>
       {/* <Ionicons name="person-circle-outline" size={45} color={colors.dark[5]} /> */}
     </View>
