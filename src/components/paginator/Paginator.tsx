@@ -5,8 +5,9 @@ import { useNavigation } from "@react-navigation/native";
 
 const Paginator: React.FC<{
   currIndex: number;
+  preferencesPage?: boolean;
   onNextSlide: () => void;
-}> = ({ currIndex, onNextSlide }) => {
+}> = ({ currIndex, preferencesPage, onNextSlide }) => {
   const navigation = useNavigation();
 
   function switchOnBoardingHandler() {
@@ -15,14 +16,7 @@ const Paginator: React.FC<{
 
   return (
     <View style={styles.paginator}>
-      <View
-        style={[
-          currIndex.toString() === "1"
-            ? { flexDirection: "column", top: 25, left: 10 }
-            : { flexDirection: "row" },
-          { gap: 15 },
-        ]}
-      >
+      <View style={[{ gap: 15, flexDirection: "row" }]}>
         {slides.map((_, i) => {
           return (
             <Animated.View
@@ -56,7 +50,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     position: "absolute",
     zIndex: 2,
-    top: 35
+    top: 35,
   },
   dot: {
     width: 18,
