@@ -13,13 +13,15 @@ import RegisterScreen from "../screens/auth/RegisterScreen";
 import AuthRoutes from "./stack-auth.routes";
 import Personalization from "../screens/personalize/Personalization";
 import RentObjective from "../screens/personalize/RentObjective";
+import RentPrice from "../screens/personalize/RentPrice";
+import RentTime from "../screens/personalize/RentTime";
 
 const Stack = createStackNavigator();
 
 const StackRoutes = () => {
   return (
     <Stack.Navigator>
-      {/* <Stack.Screen
+      <Stack.Screen
         options={{ headerShown: false }}
         name="onboarding"
         component={OnBoarding}
@@ -53,16 +55,26 @@ const StackRoutes = () => {
         options={{ presentation: "card", title: "Revisão" }}
         name="bike-rent-summary"
         component={BikeRentSummary}
-      />*/}
-      {/* <Stack.Screen
+      />
+      <Stack.Screen
         options={{ presentation: "card", title: "Pagamento" }}
         name="bike-rent-payment"
         component={PaymentScreen}
-      />  */}
+      /> 
       <Stack.Screen
         options={{ presentation: "modal", headerShown: false }}
         name="rent-objective"
         component={RentObjective}
+      />
+      <Stack.Screen
+        options={{ presentation: "modal", headerShown: false }}
+        name="rent-price"
+        component={RentPrice}
+      />
+      <Stack.Screen
+        options={{ presentation: "modal", headerShown: false }}
+        name="rent-time"
+        component={RentTime}
       />
     </Stack.Navigator>
   );

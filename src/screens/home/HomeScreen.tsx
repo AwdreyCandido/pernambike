@@ -22,9 +22,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { getAllBikes } from "../../services/bikes";
 import { BikesContext } from "../../store/BikesContext";
 import Loading from "../../components/layout/Loading";
+import PersonalizationModal from "../../components/personalization-modal/PersonalizationModal";
 
 const HomeScreen = ({ navigation }: any) => {
-  const { logout } = useContext(AuthContext);
+  const { logout, token } = useContext(AuthContext);
   const {
     setAllBikesHandler,
     bikesList,
@@ -97,7 +98,13 @@ const HomeScreen = ({ navigation }: any) => {
         //   );
         // }}
         ListFooterComponent={() => {
-          return <View style={{ height: 70 }}></View>;
+          return token ? (
+            <View style={{ marginBottom: 90 }}>
+              <PersonalizationModal />
+            </View>
+          ) : (
+            <View style={{ height: 70 }}></View>
+          );
         }}
         data={filteredBikesList}
         keyExtractor={(item) => String(item.id)}

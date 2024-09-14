@@ -1,35 +1,46 @@
-import { View, Text, StyleSheet } from "react-native";
-import React from "react";
-import { texts } from "../../utils/custom-styles";
+import { View, Text, StyleSheet, Pressable } from "react-native";
+import React, { useContext } from "react";
+import { texts, colors } from "../../utils/custom-styles";
 import { SafeAreaView } from "react-native-safe-area-context";
-import OutlineButton from "../../components/buttons/OulineButton";
-import { styled } from "nativewind";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
-import { useNavigation } from "@react-navigation/native";
 import Paginator from "../../components/paginator/Paginator";
+import { useNavigation } from "@react-navigation/native";
+import { AuthContext } from "../../store/AuthContext";
+import { PersonalizationContext } from "../../store/Personalization";
+import OutlineButton from "../../components/buttons/OulineButton";
 
-interface RentPriceProps {
-  name: string;
-}
+const priceOptions = [
+  { label: "Até R$ 15", value: [15] },
+  { label: "Entre R$ 16 e 25", value: [16, 25] },
+  { label: "Entre R$ 26 e 35", value: [26, 35] },
+  { label: "Acima de R$ 35", value: [35] },
+  { label: "Qualquer preço", value: [] },
+];
 
-const RentPrice: React.FC<RentPriceProps> = ({ name }) => {
+const RentPrice: React.FC = () => {
   const navigation = useNavigation();
+  const { user } = useContext(AuthContext);
+  const { rentPrice, updateRentPriceHandler } = useContext(
+    PersonalizationContext
+  );
 
   function nextPage() {
-    navigation.navigate("initial-page");
+    navigation.navigate("rent-time");
   }
 
   function goBack() {
-    navigation.navigate("initial-page");
+    navigation.navigate("rent-objective");
   }
 
   return (
     <SafeAreaView className="flex-1">
-              <Paginator currIndex={1} onNextSlide={nextPage} />
-      <View className="flex-1 item">
+      <Paginator currIndex={1} onNextSlide={nextPage} />
+      <View className="flex-1  p-[15]">
         <View className="mt-10">
           <Text style={[texts.soraTitle.bold, { fontSize: 40 }]}>
-            Olá, <Text className="text-primary-2">{name}</Text>,
+            Olá,{" "}
+            <Text className="text-primary-2">{user.name.split(" ").at(0)}</Text>
+            ,
           </Text>
           <Text style={[texts.soraTitle.bold, { fontSize: 40 }]}>
             seja bem-vindo(a)!
@@ -39,16 +50,45 @@ const RentPrice: React.FC<RentPriceProps> = ({ name }) => {
           Qual o valor que deseja pagar no aluguel da bicicleta?
         </Text>
         <View className="h-max mt-4">
-          <OutlineButton title="Até R$ 15" onPress={() => {}} />
-          <View style={{ marginTop: 20 }}></View>
-          <OutlineButton title="Entre R$ 16 e 25" onPress={() => {}} />
-          <View style={{ marginTop: 20 }}></View>
-          <OutlineButton title="Entre R$ 26 e 35" onPress={() => {}} />
-          <View style={{ marginTop: 20 }}></View>
-          <OutlineButton title="Acima de R$ 35" onPress={() => {}} />
-          <View style={{ marginTop: 20 }}></View>
-          <OutlineButton title="Qualquer preço" onPress={() => {}} />
-          <View style={{ marginTop: 20 }}></View>
+          {priceOptions.map(({ label, value }) => (
+            <View key={label} style={{ marginBottom: 20 }}>
+              <Pressable onPress={() => updateRentPriceHandler(value)}>
+                <View
+                  style={{
+                    borderWidth: 2,
+                    borderColor: colors.primary[1],
+                    backgroundColor:
+                      JSON.stringify(rentPrice) === JSON.stringify(value)
+                        ? colors.primary[1]
+                        : "#FFFFFF",
+                    width: "100%",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    paddingVertical: 10,
+                    paddingHorizontal: 20,
+                    borderRadius: 50,
+                    justifyContent: "center",
+                    elevation: 2,
+                    overflow: "hidden",
+                  }}
+                >
+                  <Text
+                    style={[
+                      styles.title,
+                      {
+                        color:
+                          JSON.stringify(rentPrice) === JSON.stringify(value)
+                            ? "#FFFFFF"
+                            : colors.text,
+                      },
+                    ]}
+                  >
+                    {label}
+                  </Text>
+                </View>
+              </Pressable>
+            </View>
+          ))}
         </View>
         <View className="flex-1 justify-end">
           <View style={styles.buttonContainer}>
@@ -68,13 +108,6 @@ const RentPrice: React.FC<RentPriceProps> = ({ name }) => {
 export default RentPrice;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    position: "relative",
-    backgroundColor: "white",
-    paddingHorizontal: 15,
-  },
-
   buttonContainer: {
     flex: 1,
     minWidth: "100%",
@@ -82,5 +115,11 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     paddingBottom: 20,
     gap: 20,
+  },
+  title: {
+    fontFamily: "sora semibold",
+    fontSize: 20,
+    color: "white",
+    textAlign: "center",
   },
 });
