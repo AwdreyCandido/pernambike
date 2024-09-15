@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,9 +12,12 @@ import Slide from "./Slide";
 import { useRef, useState } from "react";
 import Paginator from "../paginator/Paginator";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { AuthContext } from "../../store/AuthContext";
+import { useIsFocused } from "@react-navigation/native";
 
 const OnBoarding = ({ navigation }) => {
   const slidesRef = useRef<FlatList>(null);
+  const { token } = useContext(AuthContext);
   const [currIndex, setCurrIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
 
@@ -22,11 +25,18 @@ const OnBoarding = ({ navigation }) => {
     setCurrIndex(viewableItems[0].index);
   }
 
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (token) {
+      navigation.navigate("initial-page");
+    }
+  }, [isFocused]);
+
   function scrollTo() {
     if (currIndex < slides.length - 1) {
       slidesRef.current?.scrollToIndex({ index: currIndex + 1 });
     } else {
-      // Navigate to Login Screen
       navigation.navigate("login");
     }
   }

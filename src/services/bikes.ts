@@ -22,17 +22,21 @@ export async function getBike(id: number) {
   };
 }
 
-export async function getReviewsByOwnerId(ownerId: string) {
+export async function getReviewsByBikeId(bikeId: number) {
   const { data, error } = await supabase
     .from("reviews")
-    .select("*")
-    .eq("user_id", ownerId);
+    .select(`
+      *,
+      users (name)  // Seleciona o nome do revisor da tabela 'users'
+    `)
+    .eq("bike_id", bikeId);
 
   return {
-    data,
+    data: data ?? [],
     error,
   };
 }
+
 
 
 export async function addRentedBike(bike: RentedBike) {

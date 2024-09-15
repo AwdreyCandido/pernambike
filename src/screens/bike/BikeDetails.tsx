@@ -13,22 +13,46 @@ import PrimaryButton from "../../components/buttons/PrimaryButton";
 import BikeOwner from "../../components/bike-owner/BikeOwner";
 import ExpandingCard from "../../components/cards/ExpandingCard";
 import { Ionicons } from "@expo/vector-icons";
-import { getBike } from "../../services/bikes";
+import { getBike, getReviewsByBikeId } from "../../services/bikes";
 import { IBike } from "../../domain/Bike";
 import { BikesContext } from "../../store/BikesContext";
 import OutlineButton from "../../components/buttons/OulineButton";
 import Loading from "../../components/layout/Loading";
 import { AuthContext } from "../../store/AuthContext";
 
+interface IReview {
+  bike_id: number;
+  content: string;
+  created_at: string;
+  id: number;
+  reviewer_id: string;
+  stars: number;
+  users: any;
+}
+
+const reviews = [
+  {
+    bike_id: 3,
+    content: "Faz o L",
+    created_at: "2024-09-15T18:15:08+00:00",
+    id: 3,
+    reviewer_id: "108b3659-d3c6-4685-af38-20955da062a2",
+    stars: 5,
+    users: { name: "Johnny Furacão" },
+  },
+];
+
 const BikeDetails = ({ navigation, route }: any) => {
   const bikeId = route.params.bikeId;
-  const [bike, setBike] = useState<IBike | null>(null);
   const { bikesList, rentedBike } = useContext(BikesContext);
   const { token } = useContext(AuthContext);
+  const [bike, setBike] = useState<IBike | null>(null);
+  const [bikeReviews, setBikeReviews] = useState<IReview[]>(reviews);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getAllBikesHandler(bikeId);
+    getBikeReviewsHandler(bikeId);
   }, [bikeId]);
 
   async function getAllBikesHandler(id: number) {
@@ -54,6 +78,29 @@ const BikeDetails = ({ navigation, route }: any) => {
       console.error(error);
     }
     setIsLoading(false);
+  }
+
+  async function getBikeReviewsHandler(id: number) {
+    try {
+      const { data, error } = await getReviewsByBikeId(id);
+
+      if (error) {
+        throw new Error("Erro ao buscar reviews");
+      }
+
+      if (data) {
+        setBikeReviews(data);
+      } else {
+        setBikeReviews([]);
+      }
+    } catch (error) {
+      goBackHandler();
+      Alert.alert(
+        "Erro ao buscar detalhes da bike",
+        "Por favor, verifique sua conexão com a internet."
+      );
+      console.error(error);
+    }
   }
 
   function goBackHandler() {
@@ -160,7 +207,65 @@ const BikeDetails = ({ navigation, route }: any) => {
               </>
             </ExpandingCard>
             <ExpandingCard title="Avaliações do locador(a)">
-              <View></View>
+              <View >
+                {bikeReviews.length > 0 ? (
+                  bikeReviews.map((review) => (
+                    <View className="bg-white px-4 py-2 mb-2 rounded-md" key={review.id}>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          marginBottom: 4,
+                        }}
+                      >
+                        {Array.from({ length: 5 }).map((_, index) => (
+                          <Ionicons
+                            key={index}
+                            name="star"
+                            size={16}
+                            color={
+                              index < review.stars
+                                ? colors.alert
+                                : colors.dark[4]
+                            }
+                          />
+                        ))}
+                      </View>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <Text
+                          style={[
+                            texts.dmText.medium,
+                            { color: colors.text, fontSize: 16 },
+                          ]}
+                        >
+                          {review.users.name}
+                        </Text>
+                        <Text style={[styles.subtext, { fontSize: 14 }]}>
+                          {new Date(review.created_at).toLocaleDateString()}
+                        </Text>
+                      </View>
+                      <Text
+                        style={[
+                          texts.soraText.regular,
+                          { color: colors.dark[4], fontSize: 16, marginTop:4 },
+                        ]}
+                      >
+                        {review.content}
+                      </Text>
+                    </View>
+                  ))
+                ) : (
+                  <Text style={styles.subtext}>
+                    Nenhuma avaliação encontrada.
+                  </Text>
+                )}
+              </View>
             </ExpandingCard>
           </View>
         </ScrollView>
