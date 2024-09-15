@@ -18,11 +18,16 @@ const Input: React.FC<{
 }> = ({ label, inputConfig, type, errorMessage }) => {
   return (
     <View style={styles.inputContainer}>
-      <Text
-        style={[texts.soraText.regular, errorMessage ? styles.errorLabel : {}]}
-      >
-        {label}
-      </Text>
+      {label && (
+        <Text
+          style={[
+            texts.soraText.regular,
+            errorMessage ? styles.errorLabel : {},
+          ]}
+        >
+          {label}
+        </Text>
+      )}
       <TextInput
         style={[
           texts.soraText.regular,

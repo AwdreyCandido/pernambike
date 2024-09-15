@@ -1,4 +1,5 @@
-import React, { useState, createContext } from "react";
+import React, { useState, createContext, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface IPersonalizationContext {
   rentObjective: string;
@@ -22,14 +23,17 @@ const PersonalizationContextProvider: React.FC<{ children: JSX.Element }> = ({
 
   const updateRentObjectiveHandler = (objective: string) => {
     setRentObjective(objective);
+    AsyncStorage.setItem("rent-objetive", objective);
   };
 
   const updateRentPriceHandler = (prices: number[]) => {
     setRentPrice(prices);
+    AsyncStorage.setItem("rent-price", JSON.stringify(prices));
   };
 
   const updateRentTimeHandler = (time: string) => {
     setRentTime(time);
+    AsyncStorage.setItem("rent-time", time);
   };
 
   const value = {

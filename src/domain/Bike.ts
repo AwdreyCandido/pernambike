@@ -13,6 +13,7 @@ export interface IBike {
   rentedSince: string;
   price: string;
   title: string;
+  category: string;
   reviewsQuantity: number;
   ratingsAvg: number;
   users: IUser;

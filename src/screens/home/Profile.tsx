@@ -35,6 +35,10 @@ const Profile = ({ navigation, route }: any) => {
         navigation.navigate("bicycles");
         break;
       }
+      case 6: {
+        navigation.navigate("rent-objective");
+        break;
+      }
     }
   }
 

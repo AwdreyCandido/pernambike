@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   TextInputChangeEventData,
+  TouchableOpacity,
   View,
 } from "react-native";
 
@@ -23,6 +24,7 @@ import { getAllBikes } from "../../services/bikes";
 import { BikesContext } from "../../store/BikesContext";
 import Loading from "../../components/layout/Loading";
 import PersonalizationModal from "../../components/personalization-modal/PersonalizationModal";
+import FilterModal from "../../components/filter-modal/FilterModal";
 
 const HomeScreen = ({ navigation }: any) => {
   const { logout, token } = useContext(AuthContext);
@@ -33,6 +35,7 @@ const HomeScreen = ({ navigation }: any) => {
     inputFilterHandler,
   } = useContext(BikesContext);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
   useEffect(() => {
     getAllBikesHandler();
@@ -62,8 +65,21 @@ const HomeScreen = ({ navigation }: any) => {
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       {isLoading && <Loading />}
+      {isFilterModalOpen && (
+        <FilterModal
+          visible={isFilterModalOpen}
+          onClose={() => setIsFilterModalOpen(false)}
+        />
+      )}
       <View style={{ marginBottom: 20, paddingHorizontal: 20 }}>
-        <View>
+        <View
+          style={{
+            marginTop: 30,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "flex-end",
+          }}
+        >
           <Input
             inputConfig={{
               placeholder: "Pesquise por modelo, localização...",
@@ -72,6 +88,21 @@ const HomeScreen = ({ navigation }: any) => {
               },
             }}
           />
+          <TouchableOpacity onPress={() => setIsFilterModalOpen(true)}>
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                borderColor: colors.dark[4],
+                borderWidth: 1.5,
+                borderRadius: 14,
+                height: 51,
+                width: 51,
+              }}
+            >
+              <Ionicons name="filter" size={35} color={colors.dark[4]} />
+            </View>
+          </TouchableOpacity>
         </View>
         <Text style={[texts.dmTitle2.bold, { marginTop: 40 }]}>
           Todas as Bikes

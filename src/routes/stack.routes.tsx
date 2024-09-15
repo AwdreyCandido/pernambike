@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../screens/home/HomeScreen";
@@ -15,10 +15,14 @@ import Personalization from "../screens/personalize/Personalization";
 import RentObjective from "../screens/personalize/RentObjective";
 import RentPrice from "../screens/personalize/RentPrice";
 import RentTime from "../screens/personalize/RentTime";
+import { AuthContext } from "../store/AuthContext";
 
 const Stack = createStackNavigator();
 
 const StackRoutes = () => {
+
+  const { user, logout, token } = useContext(AuthContext);
+
   return (
     <Stack.Navigator>
       <Stack.Screen
