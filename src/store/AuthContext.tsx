@@ -12,6 +12,7 @@ interface IAuthContext {
   user: any;
   isLoading: boolean;
   authLoading: () => void;
+  fetchUpdatedUser: (id: string) => void;
 }
 
 export const AuthContext = createContext<IAuthContext>({} as IAuthContext);
@@ -36,8 +37,7 @@ const AuthContextProvider: React.FC<{ children: JSX.Element }> = ({
     getAuthValues();
   }, []);
 
-  function authLoading() {
-  }
+  function authLoading() {}
 
   async function getUserHandler(id: string) {
     const { data, error } = await getUser(id);
@@ -47,6 +47,10 @@ const AuthContextProvider: React.FC<{ children: JSX.Element }> = ({
     }
     setUser(data);
     AsyncStorage.setItem("userId", id);
+  }
+
+  async function fetchUpdatedUser(id: string) {
+    await getUserHandler(id);
   }
 
   function authenticate(token: string, userId: string) {
@@ -69,6 +73,7 @@ const AuthContextProvider: React.FC<{ children: JSX.Element }> = ({
     user,
     isLoading,
     authLoading,
+    fetchUpdatedUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -16,11 +16,11 @@ import RentObjective from "../screens/personalize/RentObjective";
 import RentPrice from "../screens/personalize/RentPrice";
 import RentTime from "../screens/personalize/RentTime";
 import { AuthContext } from "../store/AuthContext";
+import UpdateProfile from "../screens/user/UpdateProfile";
 
 const Stack = createStackNavigator();
 
 const StackRoutes = () => {
-
   const { user, logout, token } = useContext(AuthContext);
 
   return (
@@ -64,7 +64,7 @@ const StackRoutes = () => {
         options={{ presentation: "card", title: "Pagamento" }}
         name="bike-rent-payment"
         component={PaymentScreen}
-      /> 
+      />
       <Stack.Screen
         options={{ presentation: "modal", headerShown: false }}
         name="rent-objective"
@@ -79,6 +79,11 @@ const StackRoutes = () => {
         options={{ presentation: "modal", headerShown: false }}
         name="rent-time"
         component={RentTime}
+      />
+      <Stack.Screen
+        options={{ presentation: "modal", headerShown: false }}
+        name="update-profile"
+        component={UpdateProfile}
       />
     </Stack.Navigator>
   );

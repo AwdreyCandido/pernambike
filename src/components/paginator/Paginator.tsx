@@ -1,13 +1,15 @@
 import { StyleSheet, Text, View, Animated, Pressable } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { slides } from "../../utils/slides";
 import { useNavigation } from "@react-navigation/native";
+import { AuthContext } from "../../store/AuthContext";
 
 const Paginator: React.FC<{
   currIndex: number;
   preferencesPage?: boolean;
   onNextSlide: () => void;
 }> = ({ currIndex, preferencesPage, onNextSlide }) => {
+  const { token } = useContext(AuthContext);
   const navigation = useNavigation();
 
   function switchOnBoardingHandler() {

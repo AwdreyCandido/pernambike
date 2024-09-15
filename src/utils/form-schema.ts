@@ -40,5 +40,30 @@ export const loginFormSchema = z.object({
     .min(6, "Sua senha deve ter no mínimo 6 caracteres"),
 });
 
+export const updateProfileSchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "O nome é obrigatório" })
+    .max(100, { message: "O nome deve ter no máximo 100 caracteres" }),
+
+  email: z
+    .string()
+    .email({ message: "Formato de e-mail inválido" })
+    .min(1, { message: "O e-mail é obrigatório" }),
+
+  phone: z
+    .string({ required_error: "Telefone é obrigatório" })
+    .regex(PHONE_REGEX, "Forneça um número de telefone válido"),
+
+  location: z
+    .string({
+      required_error: "Preencha sua localização",
+    })
+    .min(1, { message: "A localização é obrigatória" })
+    .max(200, { message: "Sua localização deve ter no máximo 200 caracteres" })
+    .trim(),
+});
+
 export type SignUpFormSchema = z.infer<typeof signUpFormSchema>;
 export type LoginFormSchema = z.infer<typeof loginFormSchema>;
+export type UpdateProfileSchema = z.infer<typeof updateProfileSchema>;

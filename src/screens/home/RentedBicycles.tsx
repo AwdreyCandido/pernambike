@@ -1,13 +1,14 @@
 import { StyleSheet, Text, View, Image, Alert } from "react-native";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import OutlineButton from "../../components/buttons/OulineButton";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import { colors, texts } from "../../utils/custom-styles";
 import { BikesContext } from "../../store/BikesContext";
 import { IBike } from "../../domain/Bike";
-import { getRentedBike } from "../../services/bikes";
+import { deleteRentedBike, getRentedBike } from "../../services/bikes";
 import { AuthContext } from "../../store/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Loading from "../../components/layout/Loading";
 
 const RentedBicycles = ({ navigation, route }: any) => {
   const {
@@ -19,13 +20,14 @@ const RentedBicycles = ({ navigation, route }: any) => {
     rentedBike,
     setRentedBikeHandler,
   } = useContext(BikesContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   const start = formatDate(startDate!);
   const end = formatDate(endDate!);
-
+  
   useEffect(() => {
     getRentedBikeHandler();
-  }, []);
+  }, [route.params?.reload]);
 
   const getRentedBikeHandler = async () => {
     const userId = await AsyncStorage.getItem("userId");
@@ -39,6 +41,28 @@ const RentedBicycles = ({ navigation, route }: any) => {
     }
   };
 
+  const deleteRentedBikeHandler = async () => {
+    const userId = await AsyncStorage.getItem("userId");
+    setIsLoading(true);
+
+    const { error } = await deleteRentedBike(userId!, rentedBike?.bikeId!);
+
+    if (error) {
+      setIsLoading(false);
+      return Alert.alert(
+        "Erro ao cancelar aluguel da bike",
+        "Por favor, verifique sua conexão com a internet."
+      );
+    }
+
+    setIsLoading(false);
+    Alert.alert(
+      "Aluguel cancelado com sucesso",
+      "O valor da diária será devolvido ao seu cartão"
+    );
+    navigation.navigate("bicycles", { reload: true });
+  };
+
   if (!rentedBike) {
     return (
       <View
@@ -49,11 +73,16 @@ const RentedBicycles = ({ navigation, route }: any) => {
           padding: 20,
         }}
       >
-        <View style={{width:'100%'}}>
+        <View style={{ width: "100%" }}>
           <Text
             style={[
               texts.soraTitle.bold,
-              { color: colors.text, textAlign: "center", width: '100%', fontSize: 35 },
+              {
+                color: colors.text,
+                textAlign: "center",
+                width: "100%",
+                fontSize: 35,
+              },
             ]}
           >
             Você ainda não tem nenhum aluguel
@@ -71,6 +100,7 @@ const RentedBicycles = ({ navigation, route }: any) => {
 
   return (
     <View style={styles.container}>
+      {isLoading && <Loading />}
       <Text style={[texts.dmTitle2.bold, { color: colors.text }]}>
         Aluguel Atual
       </Text>
@@ -150,6 +180,14 @@ const RentedBicycles = ({ navigation, route }: any) => {
           </View>
         </View>
       </View>
+
+      <View style={{ gap: 10, marginTop: 40 }}>
+        <PrimaryButton
+          type="del"
+          title="Cancelar Aluguel"
+          onPress={deleteRentedBikeHandler}
+        />
+      </View>
     </View>
   );
 };
@@ -181,7 +219,7 @@ const styles = StyleSheet.create({
   },
   subtext: {
     width: "80%",
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
     fontSize: 16,
     color: colors.dark[4],
     marginTop: 4,

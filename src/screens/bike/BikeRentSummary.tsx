@@ -34,15 +34,18 @@ const BikeRentSummary = ({ navigation, route }: any) => {
   }, []);
 
   const fetchPaymentSheetParams = async () => {
-    const response = await fetch(`http://192.168.246.122:3000/payment-sheet`, {
-      // 10.34.128.206
-      method: "POST",
-      body: JSON.stringify({ amount: bike?.price }),
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-    });
+    const response = await fetch(
+      `https://stripe-api-production-a3cf.up.railway.app/stripe-api/payment-sheet`,
+      {
+        // 10.34.128.206
+        method: "POST",
+        body: JSON.stringify({ amount: bike?.price }),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+      }
+    );
     const { paymentIntent, ephemeralKey, customer } = await response.json();
     return { paymentIntent, ephemeralKey, customer };
   };

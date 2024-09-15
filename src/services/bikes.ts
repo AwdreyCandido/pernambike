@@ -22,6 +22,19 @@ export async function getBike(id: number) {
   };
 }
 
+export async function getReviewsByOwnerId(ownerId: string) {
+  const { data, error } = await supabase
+    .from("reviews")
+    .select("*")
+    .eq("user_id", ownerId);
+
+  return {
+    data,
+    error,
+  };
+}
+
+
 export async function addRentedBike(bike: RentedBike) {
   const {
     bikeId,
@@ -82,5 +95,38 @@ export async function getRentedBike(renterId: string) {
   return {
     data: bike,
     error,
+  };
+}
+
+
+export async function deleteRentedBike(renterId: string, bikeId: number) {
+  const { error: deleteError } = await supabase
+    .from("rented-bikes")
+    .delete()
+    .eq("renterId", renterId)
+    .eq("bikeId", bikeId);
+
+  if (deleteError) {
+    return {
+      success: false,
+      error: deleteError,
+    };
+  }
+
+  const { error: updateError } = await supabase
+    .from("bikes")
+    .update({ isRented: false })
+    .eq("id", bikeId);
+
+  if (updateError) {
+    return {
+      success: false,
+      error: updateError,
+    };
+  }
+
+  return {
+    success: true,
+    error: null,
   };
 }

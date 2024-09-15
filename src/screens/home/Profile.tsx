@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image, Alert, Pressable } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { colors, texts } from "../../utils/custom-styles";
 import { FlatList } from "react-native-gesture-handler";
 import { profileButtons } from "../../data/profile-buttons";
@@ -11,7 +11,7 @@ import PrimaryButton from "../../components/buttons/PrimaryButton";
 import Loading from "../../components/layout/Loading";
 
 const Profile = ({ navigation, route }: any) => {
-  const { user, logout, token } = useContext(AuthContext);
+  const { user, logout, token, fetchUpdatedUser } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
 
   async function logoutHandler() {
@@ -31,6 +31,10 @@ const Profile = ({ navigation, route }: any) => {
 
   function navigationHandler(id: number) {
     switch (id) {
+      case 1: {
+        navigation.navigate("update-profile");
+        break;
+      }
       case 3: {
         navigation.navigate("bicycles");
         break;
@@ -55,7 +59,7 @@ const Profile = ({ navigation, route }: any) => {
           <Image style={styles.image} source={profileImageSource} />
           {token ? (
             <View style={{ alignItems: "center" }}>
-              <Text style={[texts.dmTitle2.bold]}>{user?.name}</Text>
+              <Text style={[texts.soraText.bold]}>{user?.name}</Text>
               <Text style={[texts.dmText.regular]}>{user?.email}</Text>
             </View>
           ) : (
