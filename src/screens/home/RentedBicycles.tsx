@@ -56,11 +56,11 @@ const RentedBicycles = ({ navigation, route }: any) => {
     }
 
     setIsLoading(false);
+    navigation.navigate("initial-page", { reload: true });
     Alert.alert(
       "Aluguel cancelado com sucesso",
       "O valor da diária será devolvido ao seu cartão"
     );
-    navigation.navigate("bicycles", { reload: true });
   };
 
   if (!rentedBike) {
