@@ -62,6 +62,9 @@ const AuthContextProvider: React.FC<{ children: JSX.Element }> = ({
   function logout() {
     AsyncStorage.removeItem("token");
     AsyncStorage.removeItem("userId");
+    AsyncStorage.removeItem("rent-objetive");
+    AsyncStorage.removeItem("rent-time");
+    AsyncStorage.removeItem("rent-price");
     setToken(null);
   }
 

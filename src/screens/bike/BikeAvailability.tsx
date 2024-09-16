@@ -229,7 +229,7 @@ const BikeAvailability = ({ navigation, route }: any) => {
           <Pressable onPress={showStartTimePicker}>
             <View style={{ width: "80%", gap: 10 }}>
               <SecondaryButton
-                onPress={showEndTimePicker}
+                onPress={showStartTimePicker}
                 title="Selecionar horário para pegar a bike"
               />
               <TimeBox
