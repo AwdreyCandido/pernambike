@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { registerUser } from "../../services/auth";
 import { AuthContext } from "../../store/AuthContext";
 import Loading from "../layout/Loading";
+import { useNavigation } from "@react-navigation/native";
 
 const RegisterForm = () => {
   const { authenticate } = useContext(AuthContext);
@@ -17,6 +18,8 @@ const RegisterForm = () => {
     resolver: zodResolver(signUpFormSchema),
     mode: "onBlur",
   });
+
+  const navigation = useNavigation();
 
   const onSubmit: SubmitHandler<SignUpFormSchema> = async (userData) => {
     setIsLoading(true);
@@ -28,6 +31,8 @@ const RegisterForm = () => {
     }
 
     authenticate(session.access_token, session.user.id);
+    navigation.navigate("initial-page");
+
     setIsLoading(false);
   };
 

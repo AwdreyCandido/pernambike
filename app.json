@@ -22,10 +22,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/imgs/logo.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.awdreycandido.Pernambike"
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "7bb0b5e9-8ae0-43a1-8576-073fe2b3030b"
+      }
+    }
   }
 }

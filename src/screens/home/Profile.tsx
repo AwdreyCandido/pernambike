@@ -39,6 +39,10 @@ const Profile = ({ navigation, route }: any) => {
         navigation.navigate("bicycles");
         break;
       }
+      case 5: {
+        navigation.navigate("favorites");
+        break;
+      }
       case 6: {
         navigation.navigate("rent-objective");
         break;
@@ -59,7 +63,9 @@ const Profile = ({ navigation, route }: any) => {
           <Image style={styles.image} source={profileImageSource} />
           {token ? (
             <View style={{ alignItems: "center" }}>
-              <Text style={[texts.soraText.bold]}>{user?.name}</Text>
+              <Text style={[texts.soraText.bold]}>
+                {getFormattedName(user?.name)}
+              </Text>
               <Text style={[texts.dmText.regular]}>{user?.email}</Text>
             </View>
           ) : (
@@ -183,6 +189,26 @@ const Profile = ({ navigation, route }: any) => {
 };
 
 export default Profile;
+
+const getFormattedName = (fullName: string) => {
+  if (!fullName) return "";
+
+  const nameParts = fullName.split(" ");
+
+  const prepositions = ["de", "da", "do", "dos", "das", "e"];
+
+  const firstName = nameParts[0];
+  let lastName = "";
+
+  for (let i = nameParts.length - 1; i > 0; i--) {
+    if (!prepositions.includes(nameParts[i].toLowerCase())) {
+      lastName = nameParts[i];
+      break;
+    }
+  }
+
+  return lastName ? `${firstName} ${lastName.charAt(0)}.` : firstName;
+};
 
 const styles = StyleSheet.create({
   container: {

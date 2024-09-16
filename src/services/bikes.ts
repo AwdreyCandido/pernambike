@@ -25,10 +25,12 @@ export async function getBike(id: number) {
 export async function getReviewsByBikeId(bikeId: number) {
   const { data, error } = await supabase
     .from("reviews")
-    .select(`
+    .select(
+      `
       *,
       users (name)  // Seleciona o nome do revisor da tabela 'users'
-    `)
+    `
+    )
     .eq("bike_id", bikeId);
 
   return {
@@ -36,8 +38,6 @@ export async function getReviewsByBikeId(bikeId: number) {
     error,
   };
 }
-
-
 
 export async function addRentedBike(bike: RentedBike) {
   const {
@@ -102,6 +102,54 @@ export async function getRentedBike(renterId: string) {
   };
 }
 
+export async function addBikeToFavorites(userId: string, bikeId: number) {
+  const { data, error } = await supabase
+    .from("favorites")
+    .insert([{ userId: userId, bikeId: bikeId }]);
+
+  if (error) {
+    console.error("Error adding bike to favorites:", error);
+    return { success: false, error };
+  }
+
+  return { success: true, data };
+}
+
+export async function removeBikeFromFavorites(userId: string, bikeId: number) {
+  const { data, error } = await supabase
+    .from("favorites")
+    .delete()
+    .eq("userId", userId)
+    .eq("bikeId", bikeId);
+
+  if (error) {
+    console.error("Error removing bike from favorites:", error);
+    return { success: false, error };
+  }
+
+  return { success: true, data };
+}
+
+export async function toggleBikeFavorite(userId: string, bikeId: number) {
+  const { data, error } = await supabase
+    .from("favorites")
+    .select("*")
+    .eq("userId", userId)
+    .eq("bikeId", bikeId);
+
+  if (error) {
+    console.error("Error fetching favorite:", error);
+    return { success: false, error };
+  }
+
+  if (data && data.length > 0) {
+    await removeBikeFromFavorites(userId, bikeId);
+    return { success: true, action: "removed" };
+  } else {
+    await addBikeToFavorites(userId, bikeId);
+    return { success: true, action: "added" };
+  }
+}
 
 export async function deleteRentedBike(renterId: string, bikeId: number) {
   const { error: deleteError } = await supabase

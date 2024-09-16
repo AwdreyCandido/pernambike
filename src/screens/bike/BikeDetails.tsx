@@ -174,7 +174,7 @@ const BikeDetails = ({ navigation, route }: any) => {
                 navigation.navigate("bike-availability", { bikeId });
               }}
             />
-            <OutlineButton
+            {/* <OutlineButton
               title="Ver disponibilidade"
               onPress={() => {}}
               icon={
@@ -184,7 +184,7 @@ const BikeDetails = ({ navigation, route }: any) => {
                   color={colors.primary[1]}
                 />
               }
-            />
+            /> */}
           </View>
           <View style={{ paddingTop: 40, paddingBottom: 50, gap: 20 }}>
             <ExpandingCard title="Detalhes da bicicleta">

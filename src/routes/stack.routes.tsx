@@ -17,6 +17,7 @@ import RentPrice from "../screens/personalize/RentPrice";
 import RentTime from "../screens/personalize/RentTime";
 import { AuthContext } from "../store/AuthContext";
 import UpdateProfile from "../screens/user/UpdateProfile";
+import FavoriteBikes from "../screens/bike/FavoriteBikes";
 
 const Stack = createStackNavigator();
 
@@ -84,6 +85,11 @@ const StackRoutes = () => {
         options={{ presentation: "modal", headerShown: false }}
         name="update-profile"
         component={UpdateProfile}
+      />
+      <Stack.Screen
+        options={{ presentation: "card", title: "Favoritos" }}
+        name="favorites"
+        component={FavoriteBikes}
       />
     </Stack.Navigator>
   );

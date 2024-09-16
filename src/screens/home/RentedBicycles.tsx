@@ -56,7 +56,7 @@ const RentedBicycles = ({ navigation, route }: any) => {
     }
 
     setIsLoading(false);
-    navigation.navigate("initial-page", { reload: true });
+    getRentedBikeHandler()
     Alert.alert(
       "Aluguel cancelado com sucesso",
       "O valor da diária será devolvido ao seu cartão"

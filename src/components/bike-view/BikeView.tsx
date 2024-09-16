@@ -1,6 +1,15 @@
-import { StyleSheet, Text, View, Image, Pressable } from "react-native";
+import { StyleSheet, Text, View, Image, Pressable, Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { colors, texts } from "../../utils/custom-styles";
+import React, { useContext, useEffect, useState } from "react";
+import {
+  addBikeToFavorites,
+  removeBikeFromFavorites,
+  toggleBikeFavorite,
+} from "../../services/bikes";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { supabase } from "../../lib/supabase";
+import { AuthContext } from "../../store/AuthContext";
 
 const BikeView = ({
   title,
@@ -9,7 +18,62 @@ const BikeView = ({
   ratingsQtd,
   imageUrl,
   onPress,
+  id,
 }: any) => {
+  const { token } = useContext(AuthContext);
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const checkIfFavorite = async () => {
+    try {
+      const userId = await AsyncStorage.getItem("userId");
+
+      if (!userId) {
+        console.error("User ID not found");
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("favorites")
+        .select("*")
+        .eq("userId", userId)
+        .eq("bikeId", id);
+
+      if (error) {
+        console.error("Error fetching favorite status:", error);
+      } else {
+        setIsFavorite(data.length > 0);
+      }
+    } catch (error) {
+      console.error("Error fetching user ID:", error);
+    }
+  };
+
+  const favoriteBike = async () => {
+    const userId = await AsyncStorage.getItem("userId");
+    const result = await toggleBikeFavorite(userId!, id);
+
+    if (result.success) {
+      if (result.action === "added") {
+        setIsFavorite(true);
+        Alert.alert("Bike adicionada aos favoritos");
+      } else {
+        setIsFavorite(false);
+        Alert.alert("Bike removida dos favoritos");
+      }
+    }
+  };
+
+  async function checkFavoritesHandler() {
+    const userId = await AsyncStorage.getItem("userId");
+    if (token && userId) {
+      checkIfFavorite();
+    }
+  }
+
+  useEffect(() => {
+    checkFavoritesHandler();
+  }, []);
+
   return (
     <View style={{ borderRadius: 15, overflow: "hidden" }}>
       <Pressable
@@ -18,7 +82,12 @@ const BikeView = ({
         style={styles.container}
       >
         <View style={styles.iconContainer}>
-          <Ionicons name="heart" size={30} color={colors.lightgray} />
+          <Ionicons
+            onPress={token ? favoriteBike : () => {}}
+            name="heart"
+            size={30}
+            color={isFavorite ? colors.pink : colors.lightgray} // Muda a cor do ícone
+          />
         </View>
         <View>
           <Image
@@ -37,7 +106,7 @@ const BikeView = ({
           </Text>
           <View style={styles.rating}>
             <Ionicons name="star" size={20} color={colors.alert} />
-            <Text style={{}}>{ratingsAvg}</Text>
+            <Text>{ratingsAvg}</Text>
             <Text style={{ fontSize: 12, color: colors.dark[3] }}>
               ({ratingsQtd} avaliações)
             </Text>

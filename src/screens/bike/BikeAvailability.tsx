@@ -3,6 +3,7 @@ import {
   Alert,
   Button,
   Platform,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -155,23 +156,28 @@ const BikeAvailability = ({ navigation, route }: any) => {
   };
 
   const handleStartTime = (event: any, selectedTime: Date | undefined) => {
-    if (event.type === 'set' && selectedTime) {
+    if (event.type === "set" && selectedTime) {
       setStart(selectedTime);
-      const timeHour = selectedTime.toLocaleTimeString('pt-BR').slice(0, 5).split(':');
+      const timeHour = selectedTime
+        .toLocaleTimeString("pt-BR")
+        .slice(0, 5)
+        .split(":");
       startTimeHandler({ hours: timeHour[0], minutes: timeHour[1] });
     }
     setShowStart(false);
   };
 
   const handleEndTime = (event: any, selectedTime: Date | undefined) => {
-    if (event.type === 'set' && selectedTime) {
+    if (event.type === "set" && selectedTime) {
       setEnd(selectedTime);
-      const timeHour = selectedTime.toLocaleTimeString('pt-BR').slice(0, 5).split(':');
+      const timeHour = selectedTime
+        .toLocaleTimeString("pt-BR")
+        .slice(0, 5)
+        .split(":");
       endTimeHandler({ hours: timeHour[0], minutes: timeHour[1] });
     }
     setShowEnd(false);
   };
-
 
   const showStartTimePicker = () => {
     setShowStart(true);
@@ -220,43 +226,47 @@ const BikeAvailability = ({ navigation, route }: any) => {
         </Text>
 
         <View style={{ alignItems: "center", marginTop: 10, gap: 20 }}>
-          <View style={{ width: "80%", gap: 10 }}>
-            <SecondaryButton
-              onPress={showStartTimePicker}
-              title="Selecionar horário para pegar a bike"
-            />
-            <TimeBox
-              time={{ hours: startTime.hours, minutes: startTime.minutes }}
-            />
-          </View>
-          <View style={{ width: "80%", gap: 10 }}>
-            <SecondaryButton
-              onPress={showEndTimePicker}
-              title="Selecionar horário para devolver a bike"
-            />
-            <TimeBox
-              time={{ hours: endTime.hours, minutes: endTime.minutes }}
-            />
-          </View>
+          <Pressable onPress={showStartTimePicker}>
+            <View style={{ width: "80%", gap: 10 }}>
+              <SecondaryButton
+                onPress={showEndTimePicker}
+                title="Selecionar horário para pegar a bike"
+              />
+              <TimeBox
+                time={{ hours: startTime.hours, minutes: startTime.minutes }}
+              />
+            </View>
+          </Pressable>
+          <Pressable onPress={showEndTimePicker}>
+            <View style={{ width: "80%", gap: 10 }}>
+              <SecondaryButton
+                onPress={showEndTimePicker}
+                title="Selecionar horário para devolver a bike"
+              />
+              <TimeBox
+                time={{ hours: endTime.hours, minutes: endTime.minutes }}
+              />
+            </View>
+          </Pressable>
         </View>
         {showStart && (
-        <DateTimePicker
-          value={start || new Date()}
-          mode="time"
-          is24Hour={true}
-          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-          onChange={handleStartTime}
-        />
-      )}
+          <DateTimePicker
+            value={start || new Date()}
+            mode="time"
+            is24Hour={true}
+            display={Platform.OS === "ios" ? "spinner" : "default"}
+            onChange={handleStartTime}
+          />
+        )}
 
         {showEnd && (
           <DateTimePicker
             value={end}
             mode="time"
             is24Hour={true}
-            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+            display={Platform.OS === "ios" ? "spinner" : "default"}
             onChange={handleEndTime}
-          />  
+          />
         )}
       </View>
       <View style={styles.buttonContainer}>

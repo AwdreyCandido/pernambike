@@ -133,6 +133,7 @@ const HomeScreen = ({ navigation }: any) => {
         renderItem={({ item }) => {
           return (
             <BikeView
+              id={item.id}
               title={item.title}
               price={item.price}
               ratingsQtd={item.reviewsQuantity}

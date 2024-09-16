@@ -127,7 +127,7 @@ const RentObjective = ({ name }: RentObjectiveProps) => {
           />
           <View style={{ marginTop: 20 }}></View> */}
         </View>
-        <View className="flex-1 justify-end">
+        <View style={{ flex: 1, justifyContent: "flex-end" }}>
           <View style={styles.buttonContainer}>
             <View style={{ flex: 1 }}>
               <OutlineButton onPress={goBack} title="Voltar" />

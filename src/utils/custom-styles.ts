@@ -21,6 +21,7 @@ export const colors = {
   alert: "#FFE048",
   error: { 1: "#FF2E00", 2: "#ffc0b3" },
   text: "#3D3D3D",
+  pink: "#ec4899",
   lightgray: "#EFF3F7",
 };
 
